@@ -44,7 +44,7 @@ La présente version formalise le comportement attendu à partir de l’applicat
 
 ### Parcourir le référentiel
 
-1. Le judoka ouvre le Référentiel depuis la barre de navigation fixe en bas de page.
+1. Le judoka ouvre le Référentiel depuis le bouton dans l’en-tête de la page Réviser.
 2. Il parcourt les catégories et ouvre celle qui l’intéresse.
 3. Il sélectionne une technique pour ouvrir sa fiche de révision.
 4. Il peut ouvrir le document officiel de la FFJudo depuis la page.
@@ -63,9 +63,8 @@ La sélection de catégorie et de technique figure dans les paramètres `categor
 - La page Référentiel regroupe dynamiquement les techniques selon les catégories des données.
 - Chaque technique du référentiel mène à sa fiche avec la catégorie et la technique sélectionnées.
 - Un lien vers le document officiel FFJudo est visible sur la page Référentiel.
-- Une barre de navigation fixe au bas de l’interface permet de passer entre Réviser et Référentiel, au-dessus des contrôles injectés par Streamlit.
-- L’onglet de la page courante est visuellement identifié.
-- La barre de navigation reste visible sans masquer le contenu.
+- Un bouton de bascule dans l’en-tête de chaque page mène à l’autre vue.
+- Les boutons restent visibles, compréhensibles et faciles à toucher sur petit écran.
 
 ## 8. Principes d’interface
 

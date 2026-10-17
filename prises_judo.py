@@ -43,47 +43,7 @@ st.markdown(
 
         .block-container {
             max-width: 820px;
-            padding: 0.85rem 1rem 9rem;
-        }
-
-        .mobile-tabbar {
-            position: fixed;
-            left: 50%;
-            bottom: calc(max(0.8rem, env(safe-area-inset-bottom)) + 3rem);
-            z-index: 8000;
-            display: grid;
-            grid-template-columns: repeat(2, minmax(7rem, 1fr));
-            gap: 0.25rem;
-            width: min(25rem, calc(100vw - 2rem));
-            padding: 0.35rem;
-            transform: translateX(-50%);
-            border: 1px solid rgba(23, 32, 51, 0.1);
-            border-radius: 1.15rem;
-            background: rgba(255, 255, 255, 0.94);
-            box-shadow: 0 10px 32px rgba(23, 32, 51, 0.18);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-        }
-
-        .mobile-tab {
-            display: flex;
-            min-height: 3.2rem;
-            align-items: center;
-            justify-content: center;
-            gap: 0.55rem;
-            border-radius: 0.85rem;
-            color: var(--muted) !important;
-            font-size: 0.88rem;
-            font-weight: 750;
-            text-decoration: none !important;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .mobile-tab-icon { font-size: 1.05rem; line-height: 1; }
-
-        .mobile-tab.is-active {
-            background: var(--ink);
-            color: #fff !important;
+            padding: 0.85rem 1rem 2.25rem;
         }
 
         [data-testid="stHeader"],
@@ -102,6 +62,7 @@ st.markdown(
         }
 
         .app-header .app-title {
+            flex-wrap: nowrap;
             margin: 0;
             font-size: 1.45rem !important;
         }
@@ -113,6 +74,7 @@ st.markdown(
 
         .app-header .app-title-text {
             transform: none;
+            white-space: nowrap;
         }
 
         .app-reference-link {
@@ -120,11 +82,12 @@ st.markdown(
             align-items: center;
             justify-content: center;
             min-height: 2.75rem;
+            flex: 0 0 auto;
             padding: 0.2rem 0.85rem;
             border: 1px solid rgba(40, 100, 220, 0.28);
             border-radius: 999px;
-            background: var(--accent-soft);
-            color: var(--accent) !important;
+            background: var(--accent);
+            color: #fff !important;
             font-size: 0.82rem;
             font-weight: 800;
             text-decoration: none !important;
@@ -133,7 +96,7 @@ st.markdown(
 
         .app-reference-link:hover,
         .app-reference-link:focus-visible {
-            background: rgba(40, 100, 220, 0.12);
+            background: #1d4fb2;
         }
 
         .tech-panel {
@@ -390,8 +353,6 @@ st.markdown(
         }
 
         @media (orientation: landscape) and (max-width: 950px) and (max-height: 500px) and (pointer: coarse) {
-            .mobile-tabbar { display: none; }
-
             .block-container {
                 max-width: 100% !important;
                 padding: 0 !important;
@@ -623,6 +584,12 @@ st.markdown(
                 padding: 0.7rem 0.65rem 2rem;
             }
         }
+
+        @media (max-width: 360px) {
+            .app-header .app-title-mark {
+                display: none;
+            }
+        }
     </style>
     """,
     unsafe_allow_html=True,
@@ -824,18 +791,9 @@ st.markdown(
             </span>
             <span class="app-title-text">Gokyo - Judo</span>
         </h1>
+        <a class="app-reference-link" href="/Referentiel" target="_self">Référentiel <span aria-hidden="true">→</span></a>
     </header>
     """,
-    unsafe_allow_html=True,
-)
-
-st.markdown(
-    '<nav class="mobile-tabbar" aria-label="Navigation principale">'
-    '<a class="mobile-tab is-active" href="/" target="_self" aria-current="page">'
-    '<span class="mobile-tab-icon" aria-hidden="true">▶</span><span>Réviser</span></a>'
-    '<a class="mobile-tab" href="/Referentiel" target="_self">'
-    '<span class="mobile-tab-icon" aria-hidden="true">▤</span><span>Référentiel</span></a>'
-    '</nav>',
     unsafe_allow_html=True,
 )
 

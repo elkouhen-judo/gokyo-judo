@@ -37,17 +37,13 @@ st.markdown(
         .stApp { background:radial-gradient(ellipse at 92% 0%,rgba(40,100,220,.07),transparent 38%),var(--paper); color:var(--ink); }
         [data-testid="stHeader"], [data-testid="stToolbar"],
         [data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"] { display:none !important; }
-        .block-container { max-width:760px; padding:1.1rem 1rem 9rem; }
-        .mobile-tabbar { position:fixed; left:50%; bottom:calc(max(.8rem,env(safe-area-inset-bottom)) + 3rem); z-index:8000; display:grid; grid-template-columns:repeat(2,minmax(7rem,1fr)); gap:.25rem; width:min(25rem,calc(100vw - 2rem)); padding:.35rem; transform:translateX(-50%); border:1px solid rgba(23,32,51,.1); border-radius:1.15rem; background:rgba(255,255,255,.94); box-shadow:0 10px 32px rgba(23,32,51,.18); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
-        .mobile-tab { display:flex; min-height:3.2rem; align-items:center; justify-content:center; gap:.55rem; border-radius:.85rem; color:var(--muted)!important; font-size:.88rem; font-weight:750; text-decoration:none!important; -webkit-tap-highlight-color:transparent; }
-        .mobile-tab-icon { font-size:1.05rem; line-height:1; }
-        .mobile-tab.is-active { background:var(--ink); color:#fff!important; }
+        .block-container { max-width:760px; padding:1.1rem 1rem 4rem; }
         .ref-topbar { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.65rem; }
         .ref-brand { display:inline-flex; align-items:center; gap:.55rem; font-size:1rem; font-weight:850; color:var(--ink); }
         .ref-brand-icon { display:grid; place-items:center; width:2.15rem; height:2.15rem; border:1px solid var(--line); border-radius:50%; background:#fff; }
         .ref-brand-icon svg { width:1.55rem; height:1.55rem; }
-        .ref-back { display:inline-flex; align-items:center; justify-content:center; min-height:2.75rem; padding:.3rem .9rem; border:1px solid var(--line); border-radius:999px; background:#fff; color:var(--ink)!important; font-size:.84rem; font-weight:750; text-decoration:none!important; }
-        .ref-back:hover, .ref-back:focus-visible { border-color:var(--blue); background:#e8efff; }
+        .ref-back { display:inline-flex; flex:0 0 auto; align-items:center; justify-content:center; gap:.4rem; min-height:2.75rem; padding:.3rem .9rem; border:1px solid var(--blue); border-radius:999px; background:var(--blue); color:#fff!important; font-size:.84rem; font-weight:800; text-decoration:none!important; white-space:nowrap; }
+        .ref-back:hover, .ref-back:focus-visible { border-color:#1d4fb2; background:#1d4fb2; }
         .ref-hero { margin-bottom:2rem; }
         .ref-eyebrow { display:inline-block; margin:0 0 .65rem; padding:.28rem .55rem; border-radius:999px; background:#e8efff; color:var(--blue); font-size:.72rem; font-weight:900; letter-spacing:.1em; text-transform:uppercase; }
         .ref-title { margin:0; color:var(--ink); font-size:clamp(2rem,8vw,3.3rem); font-weight:900; letter-spacing:-.055em; line-height:1.06; }
@@ -137,6 +133,7 @@ st.markdown(
     f"""
     <div class="ref-topbar">
         <span class="ref-brand"><span class="ref-brand-icon" aria-hidden="true">{JUDO_MARK_SVG}</span>Gokyo</span>
+        <a class="ref-back" href="/" target="_self"><span aria-hidden="true">←</span> Réviser</a>
     </div>
     <main>
         <section class="ref-hero">
@@ -151,15 +148,5 @@ st.markdown(
         {render_group("Au sol", ground)}
     </main>
     """,
-    unsafe_allow_html=True,
-)
-
-st.markdown(
-    '<nav class="mobile-tabbar" aria-label="Navigation principale">'
-    '<a class="mobile-tab" href="/" target="_self">'
-    '<span class="mobile-tab-icon" aria-hidden="true">▶</span><span>Réviser</span></a>'
-    '<a class="mobile-tab is-active" href="/Referentiel" target="_self" aria-current="page">'
-    '<span class="mobile-tab-icon" aria-hidden="true">▤</span><span>Référentiel</span></a>'
-    '</nav>',
     unsafe_allow_html=True,
 )

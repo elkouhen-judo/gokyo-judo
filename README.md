@@ -18,7 +18,7 @@ Le [PRD](PRD.md) décrit les utilisateurs, les objectifs et les parcours. La [sp
    streamlit run prises_judo.py
    ```
 
-3. Choisissez une catégorie puis une prise, ou ouvrez le Référentiel depuis la barre de navigation en bas.
+3. Choisissez une catégorie puis une prise, ou utilisez le bouton de l’en-tête pour ouvrir le Référentiel.
 
 4. Consultez la description et la vidéo YouTube. Le Référentiel contient aussi un lien vers le document officiel de la FFJudo.
 
