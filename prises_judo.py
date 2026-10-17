@@ -4,7 +4,6 @@ from pathlib import Path
 from urllib.parse import quote
 
 import streamlit as st
-import streamlit.components.v1 as components
 
 from judo_utils import extract_youtube_id
 
@@ -740,7 +739,7 @@ def apply_query_param_selection() -> None:
 
 
 def prevent_mobile_keyboard_on_selectboxes() -> None:
-    components.html(
+    st.html(
         """
         <script>
             function lockSelectInputs() {
@@ -789,7 +788,7 @@ def prevent_mobile_keyboard_on_selectboxes() -> None:
             }
         </script>
         """,
-        height=0,
+        unsafe_allow_javascript=True,
     )
 
 
