@@ -59,12 +59,14 @@ La sélection de catégorie et de technique figure dans les paramètres `categor
 - Une technique est sélectionnée par défaut.
 - Le changement de catégorie sélectionne une technique de cette catégorie.
 - La fiche affiche le nom, une courte description et une vidéo YouTube intégrée.
+- Les sélecteurs de catégorie et de prise conservent leurs libellés visibles.
 - Les commandes précédente et suivante permettent de naviguer dans les techniques.
 - La page Référentiel regroupe dynamiquement les techniques selon les catégories des données.
 - Chaque technique du référentiel mène à sa fiche avec la catégorie et la technique sélectionnées.
 - Un lien vers le document officiel FFJudo est visible sur la page Référentiel.
 - Un bouton de bascule dans l’en-tête de chaque page mène à l’autre vue.
 - Les boutons restent visibles, compréhensibles et faciles à toucher sur petit écran.
+- Le titre et le lien vers la source officielle laissent apparaître rapidement les premières catégories du référentiel.
 
 ## 8. Principes d’interface
 

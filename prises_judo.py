@@ -236,6 +236,13 @@ st.markdown(
             margin-bottom: 0.65rem;
         }
 
+        .stSelectbox label {
+            margin-bottom: 0.25rem;
+            color: var(--muted) !important;
+            font-size: 0.78rem;
+            font-weight: 800;
+        }
+
         .field-label {
             display: block;
             margin: 0 0 0.32rem;
@@ -800,7 +807,6 @@ st.markdown(
 selected_category = st.selectbox(
     "Catégorie",
     categories,
-    label_visibility="collapsed",
     key="selected_category",
     on_change=reset_selected_name,
 )
@@ -812,7 +818,6 @@ selected_name = st.selectbox(
     "Prise",
     technique_names,
     format_func=format_technique_name,
-    label_visibility="collapsed",
     key="selected_name",
     on_change=sync_selected_name,
 )

@@ -38,6 +38,7 @@ Les propriétés supplémentaires sont tolérées. L’interface actuelle ne les
 - L’interface est conçue en priorité pour les écrans mobiles.
 - La navigation entre les pages se fait par un bouton de bascule dans l’en-tête de chaque page. La barre latérale Streamlit est masquée.
 - En portrait, la page de révision affiche le titre, les sélecteurs, la description et la vidéo.
+- Les sélecteurs gardent les libellés « Catégorie » et « Prise » visibles.
 - En paysage sur mobile, le titre, les sélecteurs et la description sont masqués pour laisser la place à la vidéo.
 - Les commandes interactives doivent rester utilisables au toucher et ne pas ouvrir inutilement le clavier mobile.
 
