@@ -48,8 +48,53 @@ st.markdown(
         }
 
         [data-testid="stHeader"],
-        [data-testid="stToolbar"] {
+        [data-testid="stToolbar"],
+        [data-testid="stSidebar"],
+        [data-testid="stSidebarCollapsedControl"] {
             display: none;
+        }
+
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.7rem;
+            margin: 0.15rem 0 1rem;
+        }
+
+        .app-header .app-title {
+            margin: 0;
+            font-size: 1.45rem !important;
+        }
+
+        .app-header .app-title-mark {
+            width: 2.35rem;
+            height: 2.35rem;
+        }
+
+        .app-header .app-title-text {
+            transform: none;
+        }
+
+        .app-reference-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.75rem;
+            padding: 0.2rem 0.85rem;
+            border: 1px solid rgba(185, 28, 28, 0.24);
+            border-radius: 999px;
+            background: var(--accent-soft);
+            color: var(--accent) !important;
+            font-size: 0.82rem;
+            font-weight: 800;
+            text-decoration: none !important;
+            white-space: nowrap;
+        }
+
+        .app-reference-link:hover,
+        .app-reference-link:focus-visible {
+            background: rgba(185, 28, 28, 0.15);
         }
 
         .tech-panel {
@@ -145,7 +190,7 @@ st.markdown(
         }
 
         .stSelectbox div[data-baseweb="select"] > div {
-            min-height: 2.45rem;
+            min-height: 2.75rem;
             border-radius: 8px;
             border-color: var(--line);
             background: rgba(255, 255, 251, 0.98);
@@ -728,12 +773,15 @@ prevent_mobile_keyboard_on_selectboxes()
 
 st.markdown(
     f"""
-    <h1 class="app-title">
-        <span class="app-title-mark" aria-hidden="true">
-            {JUDO_MARK_SVG}
-        </span>
-        <span class="app-title-text">Gokyo - Judo</span>
-    </h1>
+    <header class="app-header">
+        <h1 class="app-title">
+            <span class="app-title-mark" aria-hidden="true">
+                {JUDO_MARK_SVG}
+            </span>
+            <span class="app-title-text">Gokyo - Judo</span>
+        </h1>
+        <a class="app-reference-link" href="/Referentiel" target="_self">Référentiel ↗</a>
+    </header>
     """,
     unsafe_allow_html=True,
 )
