@@ -34,6 +34,15 @@ st.set_page_config(
     layout="centered",
 )
 
+theme_mode = st.query_params.get("theme", "system")
+if theme_mode not in {"dark", "light"}:
+    theme_mode = "system"
+
+THEME_PALETTES = {
+    "light": "--ink:#172033;--muted:#5f6b7d;--line:rgba(31,52,83,.14);--panel:rgba(255,255,255,.97);--surface:#f3f6fa;--page-top:#fbfcfe;--accent:#2864dc;--accent-soft:rgba(40,100,220,.08);--shadow-soft:0 12px 30px rgba(31,52,83,.09);--icon-bg:#fff;--exam-bg:rgba(255,255,255,.97);--quote-bg:rgba(255,255,255,.75);--divider:#edf0f5;color-scheme:light;",
+    "dark": "--ink:#e6edf8;--muted:#a7b3c6;--line:rgba(190,208,235,.18);--panel:rgba(23,31,45,.97);--surface:#0d1421;--page-top:#111a28;--accent:#82aaff;--accent-soft:rgba(104,153,255,.17);--shadow-soft:0 12px 30px rgba(0,0,0,.28);--icon-bg:#1a2433;--exam-bg:rgba(23,31,45,.97);--quote-bg:rgba(31,42,58,.82);--divider:rgba(190,208,235,.14);color-scheme:dark;",
+}
+
 st.markdown(
     """
     <style>
@@ -47,9 +56,16 @@ st.markdown(
         [data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"] { display:none !important; }
         .block-container { max-width:760px; padding:1.1rem 1rem 4rem; }
         .ref-topbar { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.65rem; }
+        .ref-topbar-actions { display:flex; align-items:center; gap:.45rem; }
         .ref-brand { display:inline-flex; align-items:center; gap:.55rem; font-size:1rem; font-weight:850; color:var(--ink); }
         .ref-brand-icon { display:grid; place-items:center; width:2.15rem; height:2.15rem; border:1px solid var(--line); border-radius:50%; background:var(--icon-bg); }
         .ref-brand-icon svg { width:1.55rem; height:1.55rem; }
+        .ref-theme-toggle { display:flex; gap:.35rem; }
+        .ref-theme-link { display:inline-flex; align-items:center; justify-content:center; min-height:2.75rem; padding:.2rem .7rem; border:1px solid var(--line); border-radius:999px; background:var(--panel); color:var(--ink)!important; font-size:.78rem; font-weight:800; text-decoration:none!important; white-space:nowrap; }
+        .ref-theme-link:hover, .ref-theme-link:focus-visible { border-color:var(--accent); background:var(--accent-soft); }
+        .ref-theme-light, .ref-theme-dark { display:none; }
+        .ref-theme-toggle.is-system .ref-theme-dark { display:inline-flex; }
+        @media (prefers-color-scheme:dark) { .ref-theme-toggle.is-system .ref-theme-light { display:inline-flex; } .ref-theme-toggle.is-system .ref-theme-dark { display:none; } }
         .ref-back { display:inline-flex; flex:0 0 auto; align-items:center; justify-content:center; gap:.4rem; min-height:2.75rem; padding:.3rem .9rem; border:1px solid var(--accent); border-radius:999px; background:var(--accent); color:#fff!important; font-size:.84rem; font-weight:800; text-decoration:none!important; white-space:nowrap; }
         .ref-back:hover, .ref-back:focus-visible { border-color:#1d4fb2; background:#1d4fb2; }
         .ref-hero { margin-bottom:1.1rem; }
@@ -65,7 +81,6 @@ st.markdown(
         .ref-exam blockquote { margin:.8rem 0 .45rem; padding:.6rem .75rem; border-left:3px solid var(--accent); border-radius:0 10px 10px 0; background:var(--quote-bg); color:var(--muted); font-size:.82rem; line-height:1.45; }
         .ref-exam blockquote p { margin:0; }
         .ref-exam-source { color:var(--accent)!important; font-size:.77rem; font-weight:750; text-decoration:none!important; }
-        .ref-exam-note a { color:var(--accent)!important; font-weight:750; text-decoration:none!important; }
         .ref-group { margin-top:1.1rem; }
         .ref-group-head { display:flex; align-items:baseline; justify-content:space-between; gap:.5rem; margin-bottom:.65rem; }
         .ref-group-head h2 { margin:0; color:var(--ink); font-size:1.25rem; font-weight:850; letter-spacing:-.035em; }
@@ -93,10 +108,17 @@ st.markdown(
             .ref-grid { grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; }
         }
         @media (max-width:360px) { .ref-category-description { display:none; } }
+        @media (max-width:480px) { .ref-topbar-actions { gap:.3rem; } .ref-theme-link { width:2.75rem; padding:.2rem; font-size:1rem; } .ref-theme-label, .ref-back-label { display:none; } }
     </style>
     """,
     unsafe_allow_html=True,
 )
+
+if theme_mode in THEME_PALETTES:
+    st.markdown(
+        f"<style>.stApp {{{THEME_PALETTES[theme_mode]}}}</style>",
+        unsafe_allow_html=True,
+    )
 
 
 def render_category(category: str, is_open: bool) -> str:
@@ -106,7 +128,10 @@ def render_category(category: str, is_open: bool) -> str:
     )
     links = []
     for item in items:
-        query = escape(urlencode({"category": category, "technique": item["name"]}))
+        query_params = {"category": category, "technique": item["name"]}
+        if theme_mode != "system":
+            query_params["theme"] = theme_mode
+        query = escape(urlencode(query_params))
         links.append(
             f'<a class="ref-tech" href="/?{query}" target="_self">'
             f'<span>{escape(item["name"])}</span>'
@@ -145,11 +170,35 @@ categories = list(dict.fromkeys(item["category"] for item in TECHNIQUES))
 standing = [category for category in categories if category not in GROUND_CATEGORIES]
 ground = [category for category in categories if category in GROUND_CATEGORIES]
 
+if theme_mode == "dark":
+    theme_toggle_links = (
+        '<a class="ref-theme-link" href="?theme=light" aria-label="Activer le thème clair">'
+        '<span aria-hidden="true">☀</span><span class="ref-theme-label"> Clair</span></a>'
+    )
+    theme_toggle_class = ""
+elif theme_mode == "light":
+    theme_toggle_links = (
+        '<a class="ref-theme-link" href="?theme=dark" aria-label="Activer le thème sombre">'
+        '<span aria-hidden="true">☾</span><span class="ref-theme-label"> Sombre</span></a>'
+    )
+    theme_toggle_class = ""
+else:
+    theme_toggle_links = (
+        '<a class="ref-theme-link ref-theme-light" href="?theme=light" aria-label="Activer le thème clair">'
+        '<span aria-hidden="true">☀</span><span class="ref-theme-label"> Clair</span></a>'
+        '<a class="ref-theme-link ref-theme-dark" href="?theme=dark" aria-label="Activer le thème sombre">'
+        '<span aria-hidden="true">☾</span><span class="ref-theme-label"> Sombre</span></a>'
+    )
+    theme_toggle_class = " is-system"
+
 st.markdown(
     f"""
     <div class="ref-topbar">
         <span class="ref-brand"><span class="ref-brand-icon" aria-hidden="true">{JUDO_MARK_SVG}</span>Gokyo</span>
-        <a class="ref-back" href="/" target="_self"><span aria-hidden="true">←</span> Réviser</a>
+        <div class="ref-topbar-actions">
+            <nav class="ref-theme-toggle{theme_toggle_class}" aria-label="Thème">{theme_toggle_links}</nav>
+            <a class="ref-back" href="{f'/?theme={theme_mode}' if theme_mode != 'system' else '/'}" target="_self"><span aria-hidden="true">←</span><span class="ref-back-label"> Réviser</span></a>
+        </div>
     </div>
     <main>
         <section class="ref-hero">

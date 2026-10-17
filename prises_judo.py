@@ -19,6 +19,14 @@ st.set_page_config(
 
 DATA_PATH = Path(__file__).with_name("techniques.json")
 JUDO_TECHNIQUES = json.loads(DATA_PATH.read_text(encoding="utf-8"))
+theme_mode = st.query_params.get("theme", "system")
+if theme_mode not in {"dark", "light"}:
+    theme_mode = "system"
+
+THEME_PALETTES = {
+    "light": "--ink:#172033;--muted:#5f6b7d;--line:rgba(31,52,83,.14);--panel:rgba(255,255,255,.97);--surface:#f3f6fa;--page-top:#fbfcfe;--accent:#2864dc;--accent-soft:rgba(40,100,220,.08);--shadow-soft:0 12px 30px rgba(31,52,83,.09);--field-bg:#fff;--field-bg-end:#f9fbff;--menu-bg:#fff;--navigation-bg:rgba(255,255,251,.82);--navigation-button-bg:rgba(255,255,251,.98);--icon-bg:#e8efff;--icon-outline:#172033;--landscape-nav-bg:rgba(255,255,251,.94);--divider:#edf0f5;color-scheme:light;",
+    "dark": "--ink:#e6edf8;--muted:#a7b3c6;--line:rgba(190,208,235,.18);--panel:rgba(23,31,45,.97);--surface:#0d1421;--page-top:#111a28;--accent:#82aaff;--accent-soft:rgba(104,153,255,.17);--shadow-soft:0 12px 30px rgba(0,0,0,.28);--field-bg:#1a2433;--field-bg-end:#151e2c;--menu-bg:#172130;--navigation-bg:rgba(23,31,45,.9);--navigation-button-bg:rgba(31,42,58,.98);--icon-bg:#1a2b49;--icon-outline:#e6edf8;--landscape-nav-bg:rgba(23,31,45,.96);--divider:rgba(190,208,235,.14);color-scheme:dark;",
+}
 
 st.markdown(
     """
@@ -134,6 +142,13 @@ st.markdown(
             white-space: nowrap;
         }
 
+        .app-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            flex: 0 0 auto;
+        }
+
         .app-reference-link {
             display: inline-flex;
             align-items: center;
@@ -154,6 +169,52 @@ st.markdown(
         .app-reference-link:hover,
         .app-reference-link:focus-visible {
             background: #1d4fb2;
+        }
+
+        .app-theme-toggle {
+            display: flex;
+            gap: 0.35rem;
+        }
+
+        .app-theme-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.75rem;
+            padding: 0.2rem 0.7rem;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: var(--panel);
+            color: var(--ink) !important;
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-decoration: none !important;
+            white-space: nowrap;
+        }
+
+        .app-theme-link:hover,
+        .app-theme-link:focus-visible {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        .app-theme-light,
+        .app-theme-dark {
+            display: none;
+        }
+
+        .app-theme-toggle.is-system .app-theme-dark {
+            display: inline-flex;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .app-theme-toggle.is-system .app-theme-light {
+                display: inline-flex;
+            }
+
+            .app-theme-toggle.is-system .app-theme-dark {
+                display: none;
+            }
         }
 
         .tech-panel {
@@ -705,10 +766,33 @@ st.markdown(
                 display: none;
             }
         }
+
+        @media (max-width: 480px) {
+            .app-header-actions {
+                gap: 0.3rem;
+            }
+
+            .app-theme-link {
+                width: 2.75rem;
+                padding: 0.2rem;
+                font-size: 1rem;
+            }
+
+            .app-theme-link .theme-label,
+            .app-reference-label {
+                display: none;
+            }
+        }
     </style>
     """,
     unsafe_allow_html=True,
 )
+
+if theme_mode in THEME_PALETTES:
+    st.markdown(
+        f"<style>.stApp {{{THEME_PALETTES[theme_mode]}}}</style>",
+        unsafe_allow_html=True,
+    )
 
 categories = list(dict.fromkeys(technique["category"] for technique in JUDO_TECHNIQUES))
 
@@ -755,7 +839,10 @@ def sync_selection_query_params(category: str, name: str) -> None:
 
 
 def get_selection_url(category: str, name: str) -> str:
-    return f"?category={quote(category)}&technique={quote(name)}"
+    query = f"category={quote(category)}&technique={quote(name)}"
+    if theme_mode != "system":
+        query += f"&theme={theme_mode}"
+    return f"?{query}"
 
 
 def render_landscape_navigation_overlay(
@@ -897,6 +984,40 @@ next_index = (current_index + 1) % len(technique_names)
 
 prevent_mobile_keyboard_on_selectboxes()
 
+def get_theme_url(target: str) -> str:
+    query = (
+        f"category={quote(st.session_state.selected_category)}"
+        f"&technique={quote(st.session_state.selected_name)}"
+        f"&theme={target}"
+    )
+    return f"/?{query}"
+
+
+if theme_mode == "dark":
+    theme_toggle_links = (
+        f'<a class="app-theme-link" href="{get_theme_url("light")}" '
+        'aria-label="Activer le thème clair"><span aria-hidden="true">☀</span>'
+        '<span class="theme-label"> Clair</span></a>'
+    )
+    theme_toggle_class = ""
+elif theme_mode == "light":
+    theme_toggle_links = (
+        f'<a class="app-theme-link" href="{get_theme_url("dark")}" '
+        'aria-label="Activer le thème sombre"><span aria-hidden="true">☾</span>'
+        '<span class="theme-label"> Sombre</span></a>'
+    )
+    theme_toggle_class = ""
+else:
+    theme_toggle_links = (
+        f'<a class="app-theme-link app-theme-light" href="{get_theme_url("light")}" '
+        'aria-label="Activer le thème clair"><span aria-hidden="true">☀</span>'
+        '<span class="theme-label"> Clair</span></a>'
+        f'<a class="app-theme-link app-theme-dark" href="{get_theme_url("dark")}" '
+        'aria-label="Activer le thème sombre"><span aria-hidden="true">☾</span>'
+        '<span class="theme-label"> Sombre</span></a>'
+    )
+    theme_toggle_class = " is-system"
+
 st.markdown(
     f"""
     <header class="app-header">
@@ -906,7 +1027,10 @@ st.markdown(
             </span>
             <span class="app-title-text">Gokyo - Judo</span>
         </h1>
-        <a class="app-reference-link" href="/Referentiel" target="_self">Référentiel <span aria-hidden="true">→</span></a>
+        <div class="app-header-actions">
+            <nav class="app-theme-toggle{theme_toggle_class}" aria-label="Thème">{theme_toggle_links}</nav>
+            <a class="app-reference-link" href="/Referentiel{f'?theme={theme_mode}' if theme_mode != 'system' else ''}" target="_self"><span class="app-reference-label">Référentiel </span><span aria-hidden="true">→</span></a>
+        </div>
     </header>
     """,
     unsafe_allow_html=True,
