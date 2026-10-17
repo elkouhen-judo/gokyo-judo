@@ -243,6 +243,11 @@ st.markdown(
             min-height: 3.1rem;
         }
 
+        .stSelectbox div[data-baseweb="select"] > div {
+            align-items: center;
+            min-height: 3.1rem;
+        }
+
         .stSelectbox input {
             caret-color: transparent;
             pointer-events: none;
