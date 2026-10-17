@@ -44,13 +44,13 @@ st.markdown(
 
         .block-container {
             max-width: 820px;
-            padding: 0.85rem 1rem 6.5rem;
+            padding: 0.85rem 1rem 9rem;
         }
 
         .mobile-tabbar {
             position: fixed;
             left: 50%;
-            bottom: max(0.8rem, env(safe-area-inset-bottom));
+            bottom: calc(max(0.8rem, env(safe-area-inset-bottom)) + 3rem);
             z-index: 8000;
             display: grid;
             grid-template-columns: repeat(2, minmax(7rem, 1fr));

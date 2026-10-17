@@ -63,7 +63,7 @@ La sélection de catégorie et de technique figure dans les paramètres `categor
 - La page Référentiel regroupe dynamiquement les techniques selon les catégories des données.
 - Chaque technique du référentiel mène à sa fiche avec la catégorie et la technique sélectionnées.
 - Un lien vers le document officiel FFJudo est visible sur la page Référentiel.
-- Une barre de navigation fixe en bas permet de passer entre Réviser et Référentiel.
+- Une barre de navigation fixe au bas de l’interface permet de passer entre Réviser et Référentiel, au-dessus des contrôles injectés par Streamlit.
 - L’onglet de la page courante est visuellement identifié.
 - La barre de navigation reste visible sans masquer le contenu.
 

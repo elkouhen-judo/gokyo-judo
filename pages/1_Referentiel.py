@@ -37,8 +37,8 @@ st.markdown(
         .stApp { background:radial-gradient(ellipse at 92% 0%,rgba(40,100,220,.07),transparent 38%),var(--paper); color:var(--ink); }
         [data-testid="stHeader"], [data-testid="stToolbar"],
         [data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"] { display:none !important; }
-        .block-container { max-width:760px; padding:1.1rem 1rem 7rem; }
-        .mobile-tabbar { position:fixed; left:50%; bottom:max(.8rem,env(safe-area-inset-bottom)); z-index:8000; display:grid; grid-template-columns:repeat(2,minmax(7rem,1fr)); gap:.25rem; width:min(25rem,calc(100vw - 2rem)); padding:.35rem; transform:translateX(-50%); border:1px solid rgba(23,32,51,.1); border-radius:1.15rem; background:rgba(255,255,255,.94); box-shadow:0 10px 32px rgba(23,32,51,.18); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
+        .block-container { max-width:760px; padding:1.1rem 1rem 9rem; }
+        .mobile-tabbar { position:fixed; left:50%; bottom:calc(max(.8rem,env(safe-area-inset-bottom)) + 3rem); z-index:8000; display:grid; grid-template-columns:repeat(2,minmax(7rem,1fr)); gap:.25rem; width:min(25rem,calc(100vw - 2rem)); padding:.35rem; transform:translateX(-50%); border:1px solid rgba(23,32,51,.1); border-radius:1.15rem; background:rgba(255,255,255,.94); box-shadow:0 10px 32px rgba(23,32,51,.18); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); }
         .mobile-tab { display:flex; min-height:3.2rem; align-items:center; justify-content:center; gap:.55rem; border-radius:.85rem; color:var(--muted)!important; font-size:.88rem; font-weight:750; text-decoration:none!important; -webkit-tap-highlight-color:transparent; }
         .mobile-tab-icon { font-size:1.05rem; line-height:1; }
         .mobile-tab.is-active { background:var(--ink); color:#fff!important; }
