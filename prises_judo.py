@@ -436,7 +436,8 @@ st.markdown(
             .st-key-landscape_next_button {
                 display: block !important;
                 position: fixed;
-                right: calc(env(safe-area-inset-right, 0px) + 1rem);
+                top: auto;
+                bottom: calc(env(safe-area-inset-bottom, 0px) + 4.25rem);
                 z-index: 9999;
             }
 
@@ -445,11 +446,13 @@ st.markdown(
             }
 
             .st-key-landscape_previous_button {
-                top: calc(50% - 4.25rem);
+                left: calc(env(safe-area-inset-left, 0px) + 1rem);
+                right: auto;
             }
 
             .st-key-landscape_next_button {
-                top: calc(50% + 0.75rem);
+                left: auto;
+                right: calc(env(safe-area-inset-right, 0px) + 1rem);
             }
 
             .st-key-landscape_previous_button .stButton,
@@ -524,9 +527,9 @@ st.markdown(
             }
 
             .landscape-nav-toggle {
-                top: 50%;
+                top: calc(env(safe-area-inset-top, 0px) + 0.75rem);
                 left: calc(env(safe-area-inset-left, 0px) + 0.75rem);
-                transform: translateY(-50%);
+                transform: none;
             }
 
             .landscape-nav-close {
