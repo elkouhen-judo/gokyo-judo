@@ -192,11 +192,22 @@ st.markdown(
         }
 
         .stSelectbox div[data-baseweb="select"] > div {
-            min-height: 2.75rem;
-            border-radius: 14px;
-            border-color: var(--line);
-            background: rgba(255, 255, 251, 0.98);
-            box-shadow: 0 7px 16px rgba(42, 35, 24, 0.07);
+            min-height: 3.1rem;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: linear-gradient(180deg, #fff 0%, #f9fbff 100%);
+            box-shadow: 0 5px 14px rgba(31, 52, 83, 0.07);
+            transition: border-color 140ms ease, box-shadow 140ms ease;
+        }
+
+        .stSelectbox div[data-baseweb="select"] > div:hover {
+            border-color: rgba(40, 100, 220, 0.42);
+            box-shadow: 0 7px 18px rgba(31, 52, 83, 0.1);
+        }
+
+        .stSelectbox div[data-baseweb="select"] > div:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
         }
 
         .stSelectbox div[data-baseweb="select"] [role="combobox"],
@@ -214,6 +225,11 @@ st.markdown(
             fill: var(--ink) !important;
         }
 
+        .stSelectbox div[data-baseweb="select"] svg {
+            color: var(--accent) !important;
+            fill: var(--accent) !important;
+        }
+
         .stSelectbox div[data-baseweb="select"] input::placeholder {
             color: rgba(23, 21, 20, 0.56) !important;
         }
@@ -224,7 +240,7 @@ st.markdown(
         }
 
         .stSelectbox div[data-baseweb="select"] {
-            min-height: 2.45rem;
+            min-height: 3.1rem;
         }
 
         .stSelectbox input {
@@ -237,9 +253,39 @@ st.markdown(
         }
 
         .stSelectbox label {
-            margin-bottom: 0.25rem;
-            color: var(--muted) !important;
+            margin: 0 0 0.35rem;
+            color: var(--ink) !important;
             font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.025em;
+        }
+
+        div[data-baseweb="popover"] > div {
+            overflow: hidden;
+            border: 1px solid var(--line) !important;
+            border-radius: 16px !important;
+            background: #fff;
+            box-shadow: 0 14px 32px rgba(31, 52, 83, 0.16) !important;
+        }
+
+        [role="listbox"] {
+            padding: 0.35rem !important;
+            background: #fff;
+        }
+
+        [role="option"] {
+            min-height: 2.75rem !important;
+            margin: 0.12rem 0;
+            border-radius: 10px !important;
+            color: var(--ink) !important;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        [role="option"][aria-selected="true"],
+        [role="option"]:hover {
+            background: var(--accent-soft) !important;
+            color: var(--accent) !important;
             font-weight: 800;
         }
 
