@@ -29,15 +29,72 @@ st.markdown(
             --line: rgba(31, 52, 83, 0.14);
             --panel: rgba(255, 255, 255, 0.97);
             --surface: #f3f6fa;
+            --page-top: #fbfcfe;
             --accent: #2864dc;
             --accent-soft: rgba(40, 100, 220, 0.08);
             --shadow-soft: 0 12px 30px rgba(31, 52, 83, 0.09);
+            --field-bg: #ffffff;
+            --field-bg-end: #f9fbff;
+            --menu-bg: #ffffff;
+            --navigation-bg: rgba(255, 255, 251, 0.82);
+            --navigation-button-bg: rgba(255, 255, 251, 0.98);
+            --icon-bg: #e8efff;
+            --icon-outline: #172033;
+            --landscape-nav-bg: rgba(255, 255, 251, 0.94);
+            --divider: #edf0f5;
+            color-scheme: light;
+        }
+
+        [data-theme="dark"] {
+            --ink: #e6edf8;
+            --muted: #a7b3c6;
+            --line: rgba(190, 208, 235, 0.18);
+            --panel: rgba(23, 31, 45, 0.97);
+            --surface: #0d1421;
+            --page-top: #111a28;
+            --accent: #82aaff;
+            --accent-soft: rgba(104, 153, 255, 0.17);
+            --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.28);
+            --field-bg: #1a2433;
+            --field-bg-end: #151e2c;
+            --menu-bg: #172130;
+            --navigation-bg: rgba(23, 31, 45, 0.9);
+            --navigation-button-bg: rgba(31, 42, 58, 0.98);
+            --icon-bg: #1a2b49;
+            --icon-outline: #e6edf8;
+            --landscape-nav-bg: rgba(23, 31, 45, 0.96);
+            --divider: rgba(190, 208, 235, 0.14);
+            color-scheme: dark;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --ink: #e6edf8;
+                --muted: #a7b3c6;
+                --line: rgba(190, 208, 235, 0.18);
+                --panel: rgba(23, 31, 45, 0.97);
+                --surface: #0d1421;
+                --page-top: #111a28;
+                --accent: #82aaff;
+                --accent-soft: rgba(104, 153, 255, 0.17);
+                --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.28);
+                --field-bg: #1a2433;
+                --field-bg-end: #151e2c;
+                --menu-bg: #172130;
+                --navigation-bg: rgba(23, 31, 45, 0.9);
+                --navigation-button-bg: rgba(31, 42, 58, 0.98);
+                --icon-bg: #1a2b49;
+                --icon-outline: #e6edf8;
+                --landscape-nav-bg: rgba(23, 31, 45, 0.96);
+                --divider: rgba(190, 208, 235, 0.14);
+                color-scheme: dark;
+            }
         }
 
         .stApp {
             background:
                 radial-gradient(ellipse at 90% 0%, rgba(40, 100, 220, 0.07), transparent 42%),
-                linear-gradient(180deg, #fbfcfe 0%, var(--surface) 100%);
+                linear-gradient(180deg, var(--page-top) 0%, var(--surface) 100%);
             color: var(--ink);
         }
 
@@ -163,7 +220,7 @@ st.markdown(
             height: 2.7rem;
             border: 1px solid var(--line);
             border-radius: 999px;
-            background: #e8efff;
+            background: var(--icon-bg);
             box-shadow: 0 6px 14px rgba(42, 35, 24, 0.08);
             line-height: 1;
         }
@@ -176,7 +233,7 @@ st.markdown(
 
         .app-title-mark svg polygon {
             fill: #ffffff !important;
-            stroke: #172033 !important;
+            stroke: var(--icon-outline) !important;
         }
 
         .app-title-mark svg circle {
@@ -195,7 +252,7 @@ st.markdown(
             min-height: 3.1rem;
             border: 1px solid var(--line);
             border-radius: 16px;
-            background: linear-gradient(180deg, #fff 0%, #f9fbff 100%);
+            background: linear-gradient(180deg, var(--field-bg) 0%, var(--field-bg-end) 100%);
             box-shadow: 0 5px 14px rgba(31, 52, 83, 0.07);
             transition: border-color 140ms ease, box-shadow 140ms ease;
         }
@@ -231,7 +288,7 @@ st.markdown(
         }
 
         .stSelectbox div[data-baseweb="select"] input::placeholder {
-            color: rgba(23, 21, 20, 0.56) !important;
+            color: var(--muted) !important;
         }
 
         .stSelectbox [data-baseweb="select"] [aria-selected="true"],
@@ -269,13 +326,13 @@ st.markdown(
             overflow: hidden;
             border: 1px solid var(--line) !important;
             border-radius: 16px !important;
-            background: #fff;
+            background: var(--menu-bg);
             box-shadow: 0 14px 32px rgba(31, 52, 83, 0.16) !important;
         }
 
         [role="listbox"] {
             padding: 0.35rem !important;
-            background: #fff;
+            background: var(--menu-bg);
         }
 
         [role="option"] {
@@ -344,7 +401,7 @@ st.markdown(
             padding: 0.32rem;
             border: 1px solid var(--line);
             border-radius: 999px;
-            background: rgba(255, 255, 251, 0.82);
+            background: var(--navigation-bg);
             box-shadow: var(--shadow-soft);
         }
 
@@ -356,7 +413,7 @@ st.markdown(
             height: 2.7rem;
             border: 1px solid var(--line);
             border-radius: 999px;
-            background: rgba(255, 255, 251, 0.98);
+            background: var(--navigation-button-bg);
             color: var(--ink) !important;
             box-shadow: 0 7px 16px rgba(42, 35, 24, 0.07);
             font-size: 1.35rem;
@@ -485,7 +542,7 @@ st.markdown(
                 height: 3.5rem;
                 min-width: 3.5rem;
                 padding: 0;
-                background: rgba(255, 255, 251, 0.94) !important;
+                background: var(--landscape-nav-bg) !important;
                 backdrop-filter: blur(4px);
                 border: 0;
                 border-radius: 999px;
@@ -508,7 +565,7 @@ st.markdown(
             .st-key-landscape_next_button button:active,
             .st-key-landscape_previous_button button:disabled,
             .st-key-landscape_next_button button:disabled {
-                background: rgba(255, 255, 251, 0.98) !important;
+                background: var(--landscape-nav-bg) !important;
                 color: var(--ink) !important;
                 opacity: 1 !important;
                 border: 0 !important;
@@ -535,7 +592,7 @@ st.markdown(
                 height: 2.75rem;
                 border: 0;
                 border-radius: 999px;
-                background: rgba(255, 255, 251, 0.94);
+                background: var(--landscape-nav-bg);
                 color: var(--ink);
                 box-shadow: 0 8px 20px rgba(20, 16, 12, 0.18);
                 font-size: 1.08rem;
@@ -568,7 +625,7 @@ st.markdown(
                 overflow: auto;
                 border: 1px solid var(--line);
                 border-radius: 8px;
-                background: rgba(255, 255, 251, 0.94);
+                background: var(--landscape-nav-bg);
                 backdrop-filter: blur(8px);
                 box-shadow: 0 12px 32px rgba(20, 16, 12, 0.18);
             }
@@ -604,7 +661,7 @@ st.markdown(
                 min-height: 2rem;
                 padding: 0 0.7rem;
                 border-radius: 999px;
-                background: rgba(255, 255, 255, 0.94);
+                background: var(--field-bg);
                 font-size: 0.82rem;
                 font-weight: 700;
                 white-space: nowrap;
@@ -625,7 +682,7 @@ st.markdown(
                 min-height: 2.25rem;
                 padding: 0.4rem 0.65rem;
                 border-radius: 8px;
-                background: rgba(255, 255, 255, 0.94);
+                background: var(--field-bg);
                 font-size: 0.92rem;
                 font-weight: 650;
             }

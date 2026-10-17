@@ -17,10 +17,6 @@ OFFICIAL_RULES_URL = (
     "https://www.ffjudo.com/resource-file/document/"
     "1790927392_ff301db31bacdcbb3b21.pdf"
 )
-OFFICIAL_EVALUATION_URL = (
-    "https://www.ffjudo.com/uploads/elfinder/CULTURE/GRADES%20CSDGE/"
-    "Feuilles%20%C3%A9valuation%201er%20dan%20-%20dominante%20comp%C3%A9tition.pdf"
-)
 GROUND_CATEGORIES = {"Osaekomi", "Shime waza", "Kansetsu waza"}
 DESCRIPTIONS = {
     "Koshi waza": "Techniques de hanche",
@@ -41,14 +37,18 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-        :root { --ink:#172033; --muted:#5f6b7d; --line:rgba(31,52,83,.14); --panel:rgba(255,255,255,.97); --surface:#f3f6fa; --accent:#2864dc; --accent-soft:rgba(40,100,220,.08); --shadow-soft:0 12px 30px rgba(31,52,83,.09); }
-        .stApp { background:radial-gradient(ellipse at 90% 0%,rgba(40,100,220,.07),transparent 42%),linear-gradient(180deg,#fbfcfe 0%,var(--surface) 100%); color:var(--ink); }
+        :root { --ink:#172033; --muted:#5f6b7d; --line:rgba(31,52,83,.14); --panel:rgba(255,255,255,.97); --surface:#f3f6fa; --page-top:#fbfcfe; --accent:#2864dc; --accent-soft:rgba(40,100,220,.08); --shadow-soft:0 12px 30px rgba(31,52,83,.09); --icon-bg:#fff; --exam-bg:rgba(255,255,255,.97); --quote-bg:rgba(255,255,255,.75); --divider:#edf0f5; color-scheme:light; }
+        [data-theme="dark"] { --ink:#e6edf8; --muted:#a7b3c6; --line:rgba(190,208,235,.18); --panel:rgba(23,31,45,.97); --surface:#0d1421; --page-top:#111a28; --accent:#82aaff; --accent-soft:rgba(104,153,255,.17); --shadow-soft:0 12px 30px rgba(0,0,0,.28); --icon-bg:#1a2433; --exam-bg:rgba(23,31,45,.97); --quote-bg:rgba(31,42,58,.82); --divider:rgba(190,208,235,.14); color-scheme:dark; }
+        @media (prefers-color-scheme:dark) {
+            :root:not([data-theme="light"]) { --ink:#e6edf8; --muted:#a7b3c6; --line:rgba(190,208,235,.18); --panel:rgba(23,31,45,.97); --surface:#0d1421; --page-top:#111a28; --accent:#82aaff; --accent-soft:rgba(104,153,255,.17); --shadow-soft:0 12px 30px rgba(0,0,0,.28); --icon-bg:#1a2433; --exam-bg:rgba(23,31,45,.97); --quote-bg:rgba(31,42,58,.82); --divider:rgba(190,208,235,.14); color-scheme:dark; }
+        }
+        .stApp { background:radial-gradient(ellipse at 90% 0%,rgba(40,100,220,.07),transparent 42%),linear-gradient(180deg,var(--page-top) 0%,var(--surface) 100%); color:var(--ink); }
         [data-testid="stHeader"], [data-testid="stToolbar"],
         [data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"] { display:none !important; }
         .block-container { max-width:760px; padding:1.1rem 1rem 4rem; }
         .ref-topbar { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.65rem; }
         .ref-brand { display:inline-flex; align-items:center; gap:.55rem; font-size:1rem; font-weight:850; color:var(--ink); }
-        .ref-brand-icon { display:grid; place-items:center; width:2.15rem; height:2.15rem; border:1px solid var(--line); border-radius:50%; background:#fff; }
+        .ref-brand-icon { display:grid; place-items:center; width:2.15rem; height:2.15rem; border:1px solid var(--line); border-radius:50%; background:var(--icon-bg); }
         .ref-brand-icon svg { width:1.55rem; height:1.55rem; }
         .ref-back { display:inline-flex; flex:0 0 auto; align-items:center; justify-content:center; gap:.4rem; min-height:2.75rem; padding:.3rem .9rem; border:1px solid var(--accent); border-radius:999px; background:var(--accent); color:#fff!important; font-size:.84rem; font-weight:800; text-decoration:none!important; white-space:nowrap; }
         .ref-back:hover, .ref-back:focus-visible { border-color:#1d4fb2; background:#1d4fb2; }
@@ -58,14 +58,13 @@ st.markdown(
         .ref-intro { max-width:34rem; margin:.55rem 0 .8rem; color:var(--muted); font-size:.92rem; line-height:1.45; }
         .ref-pdf { display:inline-flex; align-items:center; justify-content:space-between; gap:1rem; min-height:2.75rem; padding:.5rem .8rem; border:1px solid var(--line); border-radius:12px; background:var(--panel); color:var(--accent)!important; font-size:.84rem; font-weight:800; text-decoration:none!important; }
         .ref-pdf:hover, .ref-pdf:focus-visible { border-color:var(--accent); background:var(--accent-soft); color:var(--accent)!important; }
-        .ref-exam { margin:1rem 0 1.15rem; padding:1rem; border:1px solid rgba(40,100,220,.18); border-radius:18px; background:linear-gradient(145deg,rgba(40,100,220,.07),rgba(255,255,255,.97) 72%); }
+        .ref-exam { margin:1rem 0 1.15rem; padding:1rem; border:1px solid rgba(40,100,220,.18); border-radius:18px; background:linear-gradient(145deg,rgba(40,100,220,.07),var(--exam-bg) 72%); }
         .ref-exam h2 { margin:0 0 .65rem; color:var(--ink); font-size:1.08rem; font-weight:850; letter-spacing:-.025em; }
         .ref-exam ul { margin:0; padding-left:1.15rem; color:var(--ink); font-size:.88rem; line-height:1.5; }
         .ref-exam li + li { margin-top:.25rem; }
-        .ref-exam blockquote { margin:.8rem 0 .45rem; padding:.6rem .75rem; border-left:3px solid var(--accent); border-radius:0 10px 10px 0; background:rgba(255,255,255,.75); color:var(--muted); font-size:.82rem; line-height:1.45; }
+        .ref-exam blockquote { margin:.8rem 0 .45rem; padding:.6rem .75rem; border-left:3px solid var(--accent); border-radius:0 10px 10px 0; background:var(--quote-bg); color:var(--muted); font-size:.82rem; line-height:1.45; }
         .ref-exam blockquote p { margin:0; }
         .ref-exam-source { color:var(--accent)!important; font-size:.77rem; font-weight:750; text-decoration:none!important; }
-        .ref-exam-note { margin:.75rem 0 0; padding-top:.65rem; border-top:1px solid var(--line); color:var(--muted); font-size:.78rem; line-height:1.45; }
         .ref-exam-note a { color:var(--accent)!important; font-weight:750; text-decoration:none!important; }
         .ref-group { margin-top:1.1rem; }
         .ref-group-head { display:flex; align-items:baseline; justify-content:space-between; gap:.5rem; margin-bottom:.65rem; }
@@ -85,7 +84,7 @@ st.markdown(
         .ref-category-chevron { color:var(--muted); font-size:1.15rem; transition:transform .15s ease; }
         .ref-category[open] .ref-category-chevron { transform:rotate(180deg); }
         .ref-techniques { border-top:1px solid var(--line); padding:0 .9rem .2rem 3.95rem; }
-        .ref-tech { display:flex; align-items:center; justify-content:space-between; gap:.5rem; min-height:2.9rem; border-bottom:1px solid #edf0f5; color:var(--ink)!important; font-size:.88rem; font-weight:650; text-decoration:none!important; }
+        .ref-tech { display:flex; align-items:center; justify-content:space-between; gap:.5rem; min-height:2.9rem; border-bottom:1px solid var(--divider); color:var(--ink)!important; font-size:.88rem; font-weight:650; text-decoration:none!important; }
         .ref-tech:last-child { border-bottom:0; }
         .ref-tech:hover { color:var(--accent)!important; }
         .ref-tech-arrow { color:var(--accent); font-size:1.1rem; }
@@ -170,7 +169,6 @@ st.markdown(
             </ul>
             <blockquote><p>« Modalités : pour les techniques en nage-waza et ne-waza, le jury impose des techniques qui couvriront l’ensemble des familles. »</p></blockquote>
             <a class="ref-exam-source" href="{escape(OFFICIAL_RULES_URL)}" target="_blank" rel="noopener noreferrer">Texte exact · Textes officiels 2026/2027, règlement des grades, p. 98 ↗</a>
-            <p class="ref-exam-note">À vérifier avec ta CORG : la <a href="{escape(OFFICIAL_EVALUATION_URL)}" target="_blank" rel="noopener noreferrer">fiche d’évaluation CSDGE dominante compétition</a> mentionne aussi des techniques de défense, contrairement au règlement des grades 2026/2027.</p>
         </section>
         {render_group("Debout", standing)}
         {render_group("Au sol", ground)}

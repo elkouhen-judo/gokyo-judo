@@ -32,6 +32,8 @@ Les propriétés supplémentaires sont tolérées. L’interface actuelle ne les
 - Le lecteur accepte les formats YouTube `watch`, `youtu.be` et `shorts`.
 - La vidéo conserve un ratio 16:9 en orientation portrait.
 - En orientation paysage sur mobile, la vidéo occupe l’écran et les commandes de navigation restent accessibles.
+- Les deux pages respectent le thème clair/sombre choisi dans Streamlit et, en l’absence de choix explicite, la préférence de couleurs du système.
+- Les surfaces, textes, contrôles et menus restent contrastés dans les deux thèmes.
 
 ## Mise en page responsive
 
