@@ -1,57 +1,50 @@
-# Spécification de l'application
+# Spécification technique
 
-## Objectif
+## Portée
 
-L'application « Prises de Judo » est une application Streamlit mobile-first destinée à consulter rapidement des techniques de judo classées par catégorie. Elle doit permettre à un pratiquant, un parent ou un entraîneur de choisir une prise et d'accéder immédiatement à une courte description et à une vidéo YouTube intégrée.
+Ce document décrit les contraintes d’implémentation de Gokyo. Les objectifs produit, les utilisateurs et les parcours sont décrits dans [PRD.md](PRD.md).
 
-## Utilisateurs cibles
+## Architecture
 
-- Judokas débutants ou intermédiaires qui révisent les techniques.
-- Entraîneurs qui veulent montrer une prise pendant un cours.
-- Parents ou accompagnants qui souhaitent comprendre le nom et le principe d'une technique.
+- Application Python basée sur Streamlit.
+- Page de révision dans `prises_judo.py`.
+- Référentiel dans `pages/1_Referentiel.py`.
+- Données chargées depuis le fichier local `techniques.json`.
+- Styles responsives définis dans les pages Streamlit.
+- Pas de backend applicatif. La lecture des vidéos dépend de YouTube.
 
-## Fonctionnalités principales
+## Modèle de données
 
-1. Afficher la liste des catégories disponibles à partir du fichier `techniques.json`.
-2. Afficher les techniques de la catégorie sélectionnée, triées par nom lisible.
-3. Mettre à jour la technique sélectionnée lorsque l'utilisateur change de catégorie.
-4. Afficher pour chaque technique :
-   - son nom ;
-   - sa description courte ;
-   - la vidéo YouTube correspondante intégrée en 16:9.
-5. Synchroniser la sélection dans l'URL avec les paramètres `category` et `technique` pour permettre le partage d'un lien direct.
-6. En orientation paysage sur mobile, afficher la vidéo en plein écran et proposer :
-   - un bouton technique précédente ;
-   - un bouton technique suivante ;
-   - un panneau de navigation ouvrable listant catégories et techniques.
+Chaque entrée de `techniques.json` comporte les propriétés suivantes :
 
-## Données
-
-Les données sont stockées dans `techniques.json`. Chaque entrée doit contenir au minimum :
-
-- `category` : catégorie de technique ;
-- `name` : nom technique ;
+- `category` : catégorie de la technique ;
+- `name` : nom de la technique ;
 - `youtube` : URL YouTube ;
 - `description` : résumé pédagogique.
 
-Des champs optionnels comme `safety_note` ou `competition_note` peuvent être présents, mais ne sont pas affichés dans la version actuelle.
+Les propriétés supplémentaires sont tolérées. L’interface actuelle ne les affiche pas.
 
-## Interface
+## Règles d’affichage
 
-L'interface doit rester légère, lisible et adaptée au mobile. En portrait, l'écran montre le titre, deux sélecteurs compacts, la description et la vidéo. En paysage, les sélecteurs et le titre sont masqués pour maximiser l'espace vidéo. Les contrôles doivent rester visibles, tactiles et utilisables sans déclencher inutilement le clavier mobile.
+- Les catégories et les techniques du référentiel sont générées à partir de `techniques.json`.
+- Les techniques d’une catégorie sont présentées par ordre alphabétique.
+- Les liens du référentiel ouvrent la page de révision avec les paramètres `category` et `technique` dans l’URL.
+- Le lecteur accepte les formats YouTube `watch`, `youtu.be` et `shorts`.
+- La vidéo conserve un ratio 16:9 en orientation portrait.
+- En orientation paysage sur mobile, la vidéo occupe l’écran et les commandes de navigation restent accessibles.
 
-## Contraintes techniques
+## Mise en page responsive
 
-- Application Python basée sur Streamlit.
-- Chargement local de `techniques.json`.
-- Support des formats d'URL YouTube `watch`, `youtu.be` et `shorts`.
-- Mise en page responsive via CSS intégré.
-- Aucun backend externe requis hors YouTube.
+- L’interface est conçue en priorité pour les écrans mobiles.
+- La navigation entre les pages se fait par une barre fixe en bas de page. La barre latérale Streamlit est masquée.
+- En portrait, la page de révision affiche le titre, les sélecteurs, la description et la vidéo.
+- En paysage sur mobile, le titre, les sélecteurs et la description sont masqués pour laisser la place à la vidéo.
+- Les commandes interactives doivent rester utilisables au toucher et ne pas ouvrir inutilement le clavier mobile.
 
-## Critères d'acceptation
+## Lancement
 
-- L'application démarre avec `streamlit run prises_judo.py`.
-- Une technique est toujours sélectionnée par défaut.
-- Les changements de catégorie et de technique mettent à jour l'affichage et l'URL.
-- En paysage mobile, la vidéo occupe tout l'écran et la navigation reste accessible.
-- Le contrôle `python tests/mobile_layout_check.py` passe lorsque l'application est lancée.
+Installer les dépendances avec `pip install -r requirements.txt`, puis lancer l’application avec :
+
+```bash
+streamlit run prises_judo.py
+```

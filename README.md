@@ -1,6 +1,8 @@
 # gokyo
 
-Application Streamlit mobile-first qui liste des techniques de judo par catégorie. Lorsqu'une prise est sélectionnée, l'application affiche une description rapide et une vidéo YouTube.
+Gokyo est une application Streamlit conçue pour réviser les techniques de judo sur mobile. Elle propose une page de révision avec vidéos et un référentiel des prises organisé par catégorie.
+
+Le [PRD](PRD.md) décrit les utilisateurs, les objectifs et les parcours. La [spécification technique](spec.md) documente les données, l’architecture et le comportement responsive.
 
 ### Comment l'utiliser
 
@@ -16,9 +18,9 @@ Application Streamlit mobile-first qui liste des techniques de judo par catégor
    streamlit run prises_judo.py
    ```
 
-3. En haut de la page, choisissez une catégorie puis une prise.
+3. Choisissez une catégorie puis une prise, ou ouvrez le Référentiel depuis la barre de navigation en bas.
 
-4. La page montre une description de la technique et intègre la vidéo YouTube.
+4. Consultez la description et la vidéo YouTube. Le Référentiel contient aussi un lien vers le document officiel de la FFJudo.
 
 ### Vérification mobile
 

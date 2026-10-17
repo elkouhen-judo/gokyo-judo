@@ -25,26 +25,66 @@ st.markdown(
     """
     <style>
         :root {
-            --ink: #171514;
-            --muted: #615b53;
-            --line: rgba(23, 21, 20, 0.13);
-            --panel: rgba(255, 255, 251, 0.96);
-            --surface: #f7f6f0;
-            --accent: #b91c1c;
-            --accent-soft: rgba(185, 28, 28, 0.08);
-            --shadow-soft: 0 10px 28px rgba(42, 35, 24, 0.08);
+            --ink: #172033;
+            --muted: #5f6b7d;
+            --line: rgba(31, 52, 83, 0.14);
+            --panel: rgba(255, 255, 255, 0.97);
+            --surface: #f3f6fa;
+            --accent: #2864dc;
+            --accent-soft: rgba(40, 100, 220, 0.08);
+            --shadow-soft: 0 12px 30px rgba(31, 52, 83, 0.09);
         }
 
         .stApp {
             background:
-                linear-gradient(180deg, rgba(255, 255, 251, 0.84), rgba(255, 255, 251, 0.72)),
-                linear-gradient(180deg, #fbfaf5 0%, var(--surface) 100%);
+                radial-gradient(ellipse at 90% 0%, rgba(40, 100, 220, 0.07), transparent 42%),
+                linear-gradient(180deg, #fbfcfe 0%, var(--surface) 100%);
             color: var(--ink);
         }
 
         .block-container {
             max-width: 820px;
-            padding: 0.85rem 1rem 2.25rem;
+            padding: 0.85rem 1rem 6.5rem;
+        }
+
+        .mobile-tabbar {
+            position: fixed;
+            left: 50%;
+            bottom: max(0.8rem, env(safe-area-inset-bottom));
+            z-index: 8000;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(7rem, 1fr));
+            gap: 0.25rem;
+            width: min(25rem, calc(100vw - 2rem));
+            padding: 0.35rem;
+            transform: translateX(-50%);
+            border: 1px solid rgba(23, 32, 51, 0.1);
+            border-radius: 1.15rem;
+            background: rgba(255, 255, 255, 0.94);
+            box-shadow: 0 10px 32px rgba(23, 32, 51, 0.18);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .mobile-tab {
+            display: flex;
+            min-height: 3.2rem;
+            align-items: center;
+            justify-content: center;
+            gap: 0.55rem;
+            border-radius: 0.85rem;
+            color: var(--muted) !important;
+            font-size: 0.88rem;
+            font-weight: 750;
+            text-decoration: none !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .mobile-tab-icon { font-size: 1.05rem; line-height: 1; }
+
+        .mobile-tab.is-active {
+            background: var(--ink);
+            color: #fff !important;
         }
 
         [data-testid="stHeader"],
@@ -82,7 +122,7 @@ st.markdown(
             justify-content: center;
             min-height: 2.75rem;
             padding: 0.2rem 0.85rem;
-            border: 1px solid rgba(185, 28, 28, 0.24);
+            border: 1px solid rgba(40, 100, 220, 0.28);
             border-radius: 999px;
             background: var(--accent-soft);
             color: var(--accent) !important;
@@ -94,13 +134,13 @@ st.markdown(
 
         .app-reference-link:hover,
         .app-reference-link:focus-visible {
-            background: rgba(185, 28, 28, 0.15);
+            background: rgba(40, 100, 220, 0.12);
         }
 
         .tech-panel {
             position: relative;
             border: 1px solid var(--line);
-            border-radius: 8px;
+            border-radius: 18px;
             background: var(--panel);
             box-shadow: var(--shadow-soft);
             margin-top: 0.65rem;
@@ -123,7 +163,7 @@ st.markdown(
             aspect-ratio: 16 / 9;
             overflow: hidden;
             background: #12100f;
-            border-radius: 8px;
+            border-radius: 16px;
             box-shadow: 0 12px 24px rgba(31, 26, 18, 0.16);
         }
 
@@ -161,7 +201,7 @@ st.markdown(
             height: 2.7rem;
             border: 1px solid var(--line);
             border-radius: 999px;
-            background: var(--panel);
+            background: #e8efff;
             box-shadow: 0 6px 14px rgba(42, 35, 24, 0.08);
             line-height: 1;
         }
@@ -174,11 +214,11 @@ st.markdown(
 
         .app-title-mark svg polygon {
             fill: #ffffff !important;
-            stroke: #171514 !important;
+            stroke: #172033 !important;
         }
 
         .app-title-mark svg circle {
-            fill: #d01818 !important;
+            fill: #2864dc !important;
         }
 
         .tech-description {
@@ -191,7 +231,7 @@ st.markdown(
 
         .stSelectbox div[data-baseweb="select"] > div {
             min-height: 2.75rem;
-            border-radius: 8px;
+            border-radius: 14px;
             border-color: var(--line);
             background: rgba(255, 255, 251, 0.98);
             box-shadow: 0 7px 16px rgba(42, 35, 24, 0.07);
@@ -309,7 +349,7 @@ st.markdown(
         .standard-nav-button:hover,
         .standard-nav-button:focus,
         .standard-nav-button:active {
-            border-color: rgba(185, 28, 28, 0.24);
+            border-color: rgba(40, 100, 220, 0.35);
             background: var(--accent-soft);
             color: var(--accent) !important;
             box-shadow: 0 7px 16px rgba(42, 35, 24, 0.08);
@@ -351,6 +391,8 @@ st.markdown(
         }
 
         @media (orientation: landscape) and (max-width: 950px) and (max-height: 500px) and (pointer: coarse) {
+            .mobile-tabbar { display: none; }
+
             .block-container {
                 max-width: 100% !important;
                 padding: 0 !important;
@@ -541,14 +583,14 @@ st.markdown(
                 min-height: 2rem;
                 padding: 0 0.7rem;
                 border-radius: 999px;
-                background: rgba(247, 246, 240, 0.9);
+                background: rgba(255, 255, 255, 0.94);
                 font-size: 0.82rem;
                 font-weight: 700;
                 white-space: nowrap;
             }
 
             .landscape-nav-category.is-active {
-                border-color: rgba(185, 28, 28, 0.24);
+                border-color: rgba(40, 100, 220, 0.35);
                 background: var(--accent-soft);
                 color: var(--accent) !important;
             }
@@ -562,13 +604,13 @@ st.markdown(
                 min-height: 2.25rem;
                 padding: 0.4rem 0.65rem;
                 border-radius: 8px;
-                background: rgba(247, 246, 240, 0.9);
+                background: rgba(255, 255, 255, 0.94);
                 font-size: 0.92rem;
                 font-weight: 650;
             }
 
             .landscape-nav-technique.is-active {
-                border-color: rgba(185, 28, 28, 0.24);
+                border-color: rgba(40, 100, 220, 0.35);
                 background: var(--accent-soft);
                 color: var(--accent) !important;
             }
@@ -780,9 +822,18 @@ st.markdown(
             </span>
             <span class="app-title-text">Gokyo - Judo</span>
         </h1>
-        <a class="app-reference-link" href="/Referentiel" target="_self">Référentiel ↗</a>
     </header>
     """,
+    unsafe_allow_html=True,
+)
+
+st.markdown(
+    '<nav class="mobile-tabbar" aria-label="Navigation principale">'
+    '<a class="mobile-tab is-active" href="/" target="_self" aria-current="page">'
+    '<span class="mobile-tab-icon" aria-hidden="true">▶</span><span>Réviser</span></a>'
+    '<a class="mobile-tab" href="/Referentiel" target="_self">'
+    '<span class="mobile-tab-icon" aria-hidden="true">▤</span><span>Référentiel</span></a>'
+    '</nav>',
     unsafe_allow_html=True,
 )
 
