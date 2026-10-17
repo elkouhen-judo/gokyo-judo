@@ -2,7 +2,7 @@
 
 ## 1. Résumé
 
-Gokyo aide les judokas à réviser les techniques de judo sur leur téléphone. L’application réunit une page de révision avec vidéos et un référentiel des prises généré depuis les données du projet.
+Gokyo aide les judokas à réviser les techniques de judo sur leur téléphone. L’application réunit une page de révision avec vidéos et un référentiel des techniques généré depuis les données du projet.
 
 ## 2. Contexte et références
 
@@ -59,7 +59,7 @@ La sélection de catégorie et de technique figure dans les paramètres `categor
 - Une technique est sélectionnée par défaut.
 - Le changement de catégorie sélectionne une technique de cette catégorie.
 - La fiche affiche le nom, une courte description et une vidéo YouTube intégrée.
-- Les sélecteurs de catégorie et de prise conservent leurs libellés visibles.
+- Les sélecteurs de catégorie et de technique conservent leurs libellés visibles.
 - Les commandes précédente et suivante permettent de naviguer dans les techniques.
 - La page Référentiel regroupe dynamiquement les techniques selon les catégories des données.
 - Chaque technique du référentiel mène à sa fiche avec la catégorie et la technique sélectionnées.

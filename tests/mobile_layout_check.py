@@ -109,7 +109,7 @@ def assert_mobile_layout() -> None:
                     assert before_src != after_src
                 else:
                     expect(page.locator(".field-label", has_text="Catégorie")).to_have_count(0)
-                    expect(page.locator(".field-label", has_text="Prise")).to_have_count(0)
+                    expect(page.locator(".field-label", has_text="Technique")).to_have_count(0)
                     expect(page.locator(".technique-name")).to_be_visible()
                     expect(standard_next_button).to_be_visible()
                     expect(standard_previous_button).to_be_visible()
@@ -152,7 +152,7 @@ def assert_mobile_layout() -> None:
             expect(desktop_page.locator(".video-wrapper")).to_be_visible()
             expect(desktop_page.locator(".app-title")).to_be_visible()
             expect(desktop_page.locator(".field-label", has_text="Catégorie")).to_have_count(0)
-            expect(desktop_page.locator(".field-label", has_text="Prise")).to_have_count(0)
+            expect(desktop_page.locator(".field-label", has_text="Technique")).to_have_count(0)
             expect(desktop_page.locator(".technique-name")).to_be_visible()
             expect(desktop_page.locator(".standard-nav-next").first).to_be_visible()
             expect(desktop_page.locator(".standard-nav-previous").first).to_be_visible()

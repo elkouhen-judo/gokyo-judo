@@ -740,7 +740,7 @@ def render_landscape_navigation_overlay(
         '<nav class="landscape-nav-categories" aria-label="Catégories">'
         f"{''.join(category_links)}"
         "</nav>"
-        '<nav class="landscape-nav-techniques" aria-label="Prises">'
+        '<nav class="landscape-nav-techniques" aria-label="Techniques">'
         f"{''.join(technique_links)}"
         "</nav>"
         "</div>"
@@ -866,7 +866,7 @@ category_techniques = get_category_techniques(selected_category)
 technique_names = [technique["name"] for technique in category_techniques]
 
 selected_name = st.selectbox(
-    "Prise",
+    "Technique",
     technique_names,
     format_func=format_technique_name,
     key="selected_name",
@@ -887,18 +887,18 @@ st.markdown(
         <div class="video-wrapper">
             <iframe id="video-{escaped_video_id}" key="{escaped_video_id}" class="video-frame" src="{escape(embed_url)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
-        <nav class="standard-navigation" aria-label="Navigation entre les prises">
+        <nav class="standard-navigation" aria-label="Navigation entre les techniques">
             <a
                 class="standard-nav-button standard-nav-previous"
                 href="{escape(get_selection_url(selected_category, technique_names[previous_index]))}"
                 target="_self"
-                aria-label="Prise précédente"
+                aria-label="Technique précédente"
             >←</a>
             <a
                 class="standard-nav-button standard-nav-next"
                 href="{escape(get_selection_url(selected_category, technique_names[next_index]))}"
                 target="_self"
-                aria-label="Prochaine prise"
+                aria-label="Technique suivante"
             >→</a>
         </nav>
     </div>

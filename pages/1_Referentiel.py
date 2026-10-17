@@ -25,7 +25,7 @@ DESCRIPTIONS = {
 }
 
 st.set_page_config(
-    page_title="Référentiel des prises - Gokyo",
+    page_title="Référentiel des techniques - Gokyo",
     page_icon="🥋",
     layout="centered",
 )
@@ -120,7 +120,7 @@ def render_group(title: str, categories: list[str]) -> str:
     )
     return (
         '<section class="ref-group"><div class="ref-group-head">'
-        f'<h2>{escape(title)}</h2><span>{count} prises</span></div>'
+        f'<h2>{escape(title)}</h2><span>{count} techniques</span></div>'
         f'<div class="ref-grid">{cards}</div></section>'
     )
 
@@ -139,7 +139,7 @@ st.markdown(
         <section class="ref-hero">
             <p class="ref-eyebrow">UV2 · 1er dan</p>
             <h1 class="ref-title">Référentiel UV2</h1>
-            <p class="ref-intro">{len(TECHNIQUES)} techniques, classées par famille. Ouvre une famille pour choisir une prise.</p>
+            <p class="ref-intro">{len(TECHNIQUES)} techniques, classées par famille. Ouvre une famille pour choisir une technique.</p>
             <a class="ref-pdf" href="{escape(OFFICIAL_PDF_URL)}" target="_blank" rel="noopener noreferrer">
                 <span>PDF officiel France Judo</span><span aria-hidden="true">↗</span>
             </a>
