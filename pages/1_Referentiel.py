@@ -13,6 +13,14 @@ OFFICIAL_PDF_URL = (
     "https://www.ffjudo.com/resource-file/document/"
     "1789035361_068de2d2976847c37f5a.pdf"
 )
+OFFICIAL_RULES_URL = (
+    "https://www.ffjudo.com/resource-file/document/"
+    "1790927392_ff301db31bacdcbb3b21.pdf"
+)
+OFFICIAL_EVALUATION_URL = (
+    "https://www.ffjudo.com/uploads/elfinder/CULTURE/GRADES%20CSDGE/"
+    "Feuilles%20%C3%A9valuation%201er%20dan%20-%20dominante%20comp%C3%A9tition.pdf"
+)
 GROUND_CATEGORIES = {"Osaekomi", "Shime waza", "Kansetsu waza"}
 DESCRIPTIONS = {
     "Koshi waza": "Techniques de hanche",
@@ -50,6 +58,15 @@ st.markdown(
         .ref-intro { max-width:34rem; margin:.55rem 0 .8rem; color:var(--muted); font-size:.92rem; line-height:1.45; }
         .ref-pdf { display:inline-flex; align-items:center; justify-content:space-between; gap:1rem; min-height:2.75rem; padding:.5rem .8rem; border:1px solid var(--line); border-radius:12px; background:var(--panel); color:var(--accent)!important; font-size:.84rem; font-weight:800; text-decoration:none!important; }
         .ref-pdf:hover, .ref-pdf:focus-visible { border-color:var(--accent); background:var(--accent-soft); color:var(--accent)!important; }
+        .ref-exam { margin:1rem 0 1.15rem; padding:1rem; border:1px solid rgba(40,100,220,.18); border-radius:18px; background:linear-gradient(145deg,rgba(40,100,220,.07),rgba(255,255,255,.97) 72%); }
+        .ref-exam h2 { margin:0 0 .65rem; color:var(--ink); font-size:1.08rem; font-weight:850; letter-spacing:-.025em; }
+        .ref-exam ul { margin:0; padding-left:1.15rem; color:var(--ink); font-size:.88rem; line-height:1.5; }
+        .ref-exam li + li { margin-top:.25rem; }
+        .ref-exam blockquote { margin:.8rem 0 .45rem; padding:.6rem .75rem; border-left:3px solid var(--accent); border-radius:0 10px 10px 0; background:rgba(255,255,255,.75); color:var(--muted); font-size:.82rem; line-height:1.45; }
+        .ref-exam blockquote p { margin:0; }
+        .ref-exam-source { color:var(--accent)!important; font-size:.77rem; font-weight:750; text-decoration:none!important; }
+        .ref-exam-note { margin:.75rem 0 0; padding-top:.65rem; border-top:1px solid var(--line); color:var(--muted); font-size:.78rem; line-height:1.45; }
+        .ref-exam-note a { color:var(--accent)!important; font-weight:750; text-decoration:none!important; }
         .ref-group { margin-top:1.1rem; }
         .ref-group-head { display:flex; align-items:baseline; justify-content:space-between; gap:.5rem; margin-bottom:.65rem; }
         .ref-group-head h2 { margin:0; color:var(--ink); font-size:1.25rem; font-weight:850; letter-spacing:-.035em; }
@@ -141,8 +158,19 @@ st.markdown(
             <h1 class="ref-title">Référentiel UV2</h1>
             <p class="ref-intro">{len(TECHNIQUES)} techniques, classées par famille. Ouvre une famille pour choisir une technique.</p>
             <a class="ref-pdf" href="{escape(OFFICIAL_PDF_URL)}" target="_blank" rel="noopener noreferrer">
-                <span>PDF officiel France Judo</span><span aria-hidden="true">↗</span>
+                <span>Annexe technique officielle</span><span aria-hidden="true">↗</span>
             </a>
+        </section>
+        <section class="ref-exam" aria-labelledby="ref-exam-title">
+            <h2 id="ref-exam-title">Le jour de l’UV2</h2>
+            <ul>
+                <li>Le jury demande 6 techniques debout (nage-waza) et 4 au sol (ne-waza), une par une, en couvrant toutes les familles.</li>
+                <li>Montre les projections en déplacement et les techniques au sol en situation d’étude (renversement ou position quadrupédique).</li>
+                <li>Une méconnaissance est admise dans chacun des deux domaines. L’épreuve dure 5 minutes au maximum.</li>
+            </ul>
+            <blockquote><p>« Modalités : pour les techniques en nage-waza et ne-waza, le jury impose des techniques qui couvriront l’ensemble des familles. »</p></blockquote>
+            <a class="ref-exam-source" href="{escape(OFFICIAL_RULES_URL)}" target="_blank" rel="noopener noreferrer">Texte exact · Textes officiels 2026/2027, règlement des grades, p. 98 ↗</a>
+            <p class="ref-exam-note">À vérifier avec ta CORG : la <a href="{escape(OFFICIAL_EVALUATION_URL)}" target="_blank" rel="noopener noreferrer">fiche d’évaluation CSDGE dominante compétition</a> mentionne aussi des techniques de défense, contrairement au règlement des grades 2026/2027.</p>
         </section>
         {render_group("Debout", standing)}
         {render_group("Au sol", ground)}
