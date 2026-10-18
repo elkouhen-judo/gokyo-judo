@@ -103,12 +103,16 @@ st.markdown(
         .ref-tech-row:last-child { border-bottom:0; }
         .ref-tech-row .ref-tech { flex:1 1 0; min-width:0; border-bottom:0; }
         .ref-zoom { position:absolute; opacity:0; pointer-events:none; }
-        .ref-photo { flex:0 0 auto; margin:.3rem 0; cursor:zoom-in; }
+        .ref-photo { position:relative; flex:0 0 auto; margin:.3rem 0; cursor:zoom-in; }
+        .ref-photo::after { content:"🔍"; position:absolute; right:-.3rem; bottom:-.3rem; display:grid; place-items:center; width:1.15rem; height:1.15rem; border:1px solid var(--line); border-radius:50%; background:var(--panel); font-size:.62rem; }
+        .ref-hint { margin:.2rem 0 .6rem; color:var(--muted); font-size:.78rem; }
         .ref-photo img { display:block; width:2.5rem; height:2.5rem; border-radius:10px; object-fit:cover; }
         .ref-zoom:focus-visible + .ref-photo img { outline:3px solid var(--accent); }
-        .ref-big { display:none; flex:0 0 100%; padding:.2rem 0 .7rem; cursor:zoom-out; }
+        .ref-big { position:relative; display:none; flex:0 0 100%; padding:.2rem 0 .7rem; cursor:zoom-out; }
         .ref-big img { display:block; width:100%; max-height:26rem; border-radius:12px; object-fit:contain; background:var(--surface); }
+        .ref-big::after { content:"✕ Fermer"; position:absolute; top:.6rem; right:.5rem; padding:.2rem .6rem; border-radius:999px; background:rgba(0,0,0,.6); color:#fff; font-size:.75rem; font-weight:800; }
         .ref-zoom:checked ~ .ref-big { display:block; }
+        .ref-zoom:checked + .ref-photo::after { content:"✕"; }
         .ref-tech-name { flex:1 1 auto; }
         .ref-tech-arrow { color:var(--accent); font-size:1.1rem; }
         @media (min-width:700px) {
@@ -256,7 +260,8 @@ ground = [category for category in categories if category in GROUND_CATEGORIES]
 
 if filtered_techniques:
     st.markdown(
-        render_group("Debout", standing, filtered_techniques, has_search_query)
+        '<p class="ref-hint">🔍 Touche une photo pour l’agrandir.</p>'
+        + render_group("Debout", standing, filtered_techniques, has_search_query)
         + render_group("Au sol", ground, filtered_techniques, has_search_query),
         unsafe_allow_html=True,
     )
