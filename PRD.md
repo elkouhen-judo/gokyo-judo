@@ -49,6 +49,12 @@ La présente version formalise le comportement attendu à partir de l’applicat
 3. Il sélectionne une technique pour ouvrir sa fiche de révision.
 4. Il peut ouvrir le document officiel de la FFJudo depuis la page.
 
+### Simuler un tirage d’examen
+
+1. Le judoka ouvre « Défi UV2 » depuis l’en-tête d’une page.
+2. Il tire 6 techniques debout et 4 techniques au sol, avec au moins une technique de chaque famille du domaine.
+3. Il essaie de réaliser les techniques lui-même et peut demander un nouveau tirage.
+
 ### Partager une fiche
 
 La sélection de catégorie et de technique figure dans les paramètres `category` et `technique` de l’URL afin qu’un lien partagé ouvre la fiche correspondante.
@@ -59,12 +65,17 @@ La sélection de catégorie et de technique figure dans les paramètres `categor
 - Une technique est sélectionnée par défaut.
 - Le changement de catégorie sélectionne une technique de cette catégorie.
 - La fiche affiche le nom, une courte description et une vidéo YouTube intégrée.
+- Le nom de la technique affiche sa position dans la catégorie, par exemple « 2/6 ».
 - Les sélecteurs de catégorie et de technique conservent leurs libellés visibles.
 - Les commandes précédente et suivante permettent de naviguer dans les techniques.
 - La page Référentiel regroupe dynamiquement les techniques selon les catégories des données.
+- Le Référentiel propose une recherche instantanée par nom de technique ou famille, sans distinction de casse, d’accent ou de tiret.
+- Les familles et leurs techniques apparaissent avant le détail pédagogique de l’UV2.
+- La page « Défi UV2 » tire 6 techniques debout et 4 au sol, en couvrant chaque famille, sans chronomètre ni score.
+- Un nouveau tirage reste affiché jusqu’à ce que le judoka en demande un autre.
 - Chaque technique du référentiel mène à sa fiche avec la catégorie et la technique sélectionnées.
 - Un lien vers le document officiel FFJudo est visible sur la page Référentiel.
-- Un bouton de bascule dans l’en-tête de chaque page mène à l’autre vue.
+- Chaque page donne accès aux deux autres vues depuis son en-tête.
 - Les boutons restent visibles, compréhensibles et faciles à toucher sur petit écran.
 - Le titre et le lien vers la source officielle laissent apparaître rapidement les premières catégories du référentiel.
 
@@ -82,6 +93,9 @@ La sélection de catégorie et de technique figure dans les paramètres `categor
 - Depuis la page de révision, un utilisateur peut choisir une technique et voir son nom, sa description et sa vidéo.
 - La sélection est reflétée dans les paramètres `category` et `technique` de l’URL.
 - Les commandes précédente et suivante changent la technique affichée.
+- La fiche indique la position de la technique dans sa catégorie.
+- La recherche du Référentiel filtre les techniques et affiche un état explicite lorsqu’aucun résultat ne correspond.
+- Le Défi UV2 produit 6 techniques debout et 4 au sol, couvre toutes les familles et ne répète aucune technique dans un tirage.
 - Le référentiel reflète les catégories et techniques présentes dans `techniques.json` sans liste dupliquée dans le code HTML.
 - Un lien de technique dans le référentiel ouvre la fiche correspondante.
 - Le lien du document fédéral ouvre le PDF officiel.

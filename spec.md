@@ -28,7 +28,12 @@ Les propriétés supplémentaires sont tolérées. L’interface actuelle ne les
 
 - Les catégories et les techniques du référentiel sont générées à partir de `techniques.json`.
 - Les techniques d’une catégorie sont présentées par ordre alphabétique.
+- Le Référentiel filtre en direct les techniques par nom ou famille, sans distinction de casse, d’accent ou de tiret, et signale les recherches sans résultat.
+- Les familles précèdent les informations pédagogiques détaillées sur l’UV2.
+- La page « Défi UV2 » tire 6 techniques debout et 4 au sol, sans doublon, avec au moins une technique de chaque famille du domaine.
+- Le tirage est conservé jusqu’à la demande d’un nouveau ; aucun chrono ni score n’est affiché.
 - Les liens du référentiel ouvrent la page de révision avec les paramètres `category` et `technique` dans l’URL.
+- La fiche affiche le rang de la technique dans sa catégorie.
 - Le lecteur accepte les formats YouTube `watch`, `youtu.be` et `shorts`.
 - La vidéo conserve un ratio 16:9 en orientation portrait.
 - En orientation paysage sur mobile, la vidéo occupe l’écran et les commandes de navigation restent accessibles.

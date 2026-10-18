@@ -171,6 +171,23 @@ st.markdown(
             background: #1d4fb2;
         }
 
+        .app-challenge-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.75rem;
+            flex: 0 0 auto;
+            padding: 0.2rem 0.75rem;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: var(--panel);
+            color: var(--ink) !important;
+            font-size: 0.82rem;
+            font-weight: 800;
+            text-decoration: none !important;
+            white-space: nowrap;
+        }
+
         .app-theme-toggle {
             display: flex;
             gap: 0.35rem;
@@ -235,6 +252,15 @@ st.markdown(
             font-weight: 850 !important;
             line-height: 1.12 !important;
             letter-spacing: 0 !important;
+        }
+
+        .technique-position {
+            margin-left: 0.35rem;
+            color: var(--muted);
+            font-size: 0.78rem;
+            font-weight: 750;
+            white-space: nowrap;
+            vertical-align: middle;
         }
 
         .video-wrapper {
@@ -779,8 +805,15 @@ st.markdown(
             }
 
             .app-theme-link .theme-label,
-            .app-reference-label {
+            .app-reference-label,
+            .app-challenge-label {
                 display: none;
+            }
+
+            .app-challenge-link {
+                width: 2.75rem;
+                padding: 0.2rem;
+                font-size: 1rem;
             }
         }
     </style>
@@ -1029,6 +1062,7 @@ st.markdown(
         </h1>
         <div class="app-header-actions">
             <nav class="app-theme-toggle{theme_toggle_class}" aria-label="Thème">{theme_toggle_links}</nav>
+            <a class="app-challenge-link" href="/Defi_UV2{f'?theme={theme_mode}' if theme_mode != 'system' else ''}" target="_self" aria-label="Ouvrir le Défi UV2"><span aria-hidden="true">🎲</span><span class="app-challenge-label"> Défi</span></a>
             <a class="app-reference-link" href="/Referentiel{f'?theme={theme_mode}' if theme_mode != 'system' else ''}" target="_self"><span class="app-reference-label">Référentiel </span><span aria-hidden="true">→</span></a>
         </div>
     </header>
@@ -1063,7 +1097,10 @@ escaped_video_id = escape(video_id)
 st.markdown(
     f"""
     <div class="tech-panel">
-        <h2 class="technique-name">{escape(format_technique_name(selected_technique["name"]))}</h2>
+        <h2 class="technique-name" aria-label="{escape(format_technique_name(selected_technique["name"]))}, prise {current_index + 1} sur {len(technique_names)} dans {escape(selected_category)}">
+            {escape(format_technique_name(selected_technique["name"]))}
+            <span class="technique-position" aria-hidden="true">· {current_index + 1}/{len(technique_names)}</span>
+        </h2>
         <p class="tech-description">{escape(selected_technique["description"])}</p>
         <div class="video-wrapper">
             <iframe id="video-{escaped_video_id}" key="{escaped_video_id}" class="video-frame" src="{escape(embed_url)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
