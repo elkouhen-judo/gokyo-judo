@@ -1,4 +1,6 @@
 from html import escape
+import base64
+from functools import lru_cache
 import json
 from pathlib import Path
 
@@ -9,6 +11,7 @@ from judo_utils import draw_techniques_by_category, get_theme_styles, nav_links_
 
 ROOT = Path(__file__).resolve().parent.parent
 TECHNIQUES = json.loads((ROOT / "techniques.json").read_text(encoding="utf-8"))
+IMAGES_PATH = ROOT / "assets" / "techniques"
 GROUND_CATEGORIES = {"Osaekomi", "Shime waza", "Kansetsu waza"}
 ALL_CATEGORIES = list(dict.fromkeys(item["category"] for item in TECHNIQUES))
 STANDING_CATEGORIES = [
@@ -17,6 +20,29 @@ STANDING_CATEGORIES = [
 GROUND_CATEGORY_ORDER = [
     category for category in ALL_CATEGORIES if category in GROUND_CATEGORIES
 ]
+
+
+@lru_cache(maxsize=None)
+def technique_image_uri(name: str) -> str | None:
+    path = IMAGES_PATH / f"{name.lower()}.jpg"
+    if not path.exists():
+        return None
+    return "data:image/jpeg;base64," + base64.b64encode(path.read_bytes()).decode()
+
+
+def draw_item_html(index: int, technique: dict) -> str:
+    label = escape(technique["name"].replace("-", " "))
+    number = f'<span class="draw-number">{index}</span>'
+    image = technique_image_uri(technique["name"])
+    if image is None:
+        return f'<li class="draw-item"><div class="draw-row">{number}<span>{label}</span></div></li>'
+    return (
+        f'<li class="draw-item"><details>'
+        f'<summary class="draw-row">{number}<span class="draw-name">{label}</span>'
+        f'<span class="draw-help">💡 Aide</span></summary>'
+        f'<img class="draw-photo" src="{image}" alt="Photo de {label}" loading="lazy">'
+        f'</details></li>'
+    )
 
 st.set_page_config(
     page_title="Défi UV2 - Gokyo",
@@ -92,13 +118,29 @@ st.markdown(
         }}
         .draw-list {{
             display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
-            gap:.55rem; margin:0; padding:0; list-style:none;
+            gap:.55rem; margin:0 !important; padding:0 !important; list-style:none;
         }}
+        .draw-list {{ align-items:start; }}
         .draw-item {{
-            display:flex; align-items:center; gap:.65rem;
-            min-height:3rem; padding:.55rem .7rem;
+            margin:0 !important; padding:0 !important;
             border:1px solid var(--line); border-radius:12px;
             color:var(--ink); font-size:.9rem; font-weight:700;
+        }}
+        .draw-row {{
+            display:flex; align-items:center; gap:.65rem;
+            min-height:3rem; padding:.55rem .7rem; list-style:none; cursor:pointer;
+        }}
+        .draw-row::-webkit-details-marker {{ display:none; }}
+        .draw-name {{ flex:1 1 auto; }}
+        .draw-help {{
+            flex:0 0 auto; padding:.25rem .6rem; border-radius:999px;
+            background:var(--accent-soft); color:var(--accent);
+            font-size:.75rem; font-weight:800;
+        }}
+        details[open] .draw-help {{ background:var(--accent); color:#fff; }}
+        .draw-photo {{
+            display:block; width:100%; max-height:22rem; object-fit:contain;
+            border-radius:0 0 11px 11px; background:var(--surface);
         }}
         .draw-number {{
             display:grid; flex:0 0 auto; place-items:center;
@@ -194,8 +236,7 @@ else:
     for title, key in (("Debout · 6 techniques", "standing"), ("Au sol · 4 techniques", "ground")):
         techniques = exam_draw[key]
         items = "".join(
-            f'<li class="draw-item"><span class="draw-number">{index}</span>'
-            f'<span>{escape(technique["name"].replace("-", " "))}</span></li>'
+            draw_item_html(index, technique)
             for index, technique in enumerate(techniques, start=1)
         )
         st.markdown(

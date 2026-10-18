@@ -73,6 +73,7 @@ La sélection de catégorie et de technique figure dans les paramètres `categor
 - Le Référentiel propose une recherche instantanée par nom de technique ou famille, sans distinction de casse, d’accent ou de tiret.
 - Les familles et leurs techniques apparaissent avant le détail pédagogique de l’UV2.
 - La page « Défi UV2 » tire 6 techniques debout et 4 au sol, en couvrant chaque famille, sans chronomètre ni score.
+- Chaque technique tirée propose un bouton « Aide » qui déplie une photo (extraite des feuilles d’évaluation FFJDA 1er dan UV2, `assets/techniques/`).
 - Un nouveau tirage reste affiché jusqu’à ce que le judoka en demande un autre.
 - Chaque technique du référentiel mène à sa fiche avec la catégorie et la technique sélectionnées.
 - Un lien vers le document officiel FFJudo est visible sur la page Référentiel.
