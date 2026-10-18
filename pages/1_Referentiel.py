@@ -99,10 +99,16 @@ st.markdown(
         .ref-tech { display:flex; align-items:center; justify-content:space-between; gap:.5rem; min-height:2.9rem; border-bottom:1px solid var(--divider); color:var(--ink)!important; font-size:.88rem; font-weight:650; text-decoration:none!important; }
         .ref-tech:last-child { border-bottom:0; }
         .ref-tech:hover { color:var(--accent)!important; }
-        .ref-tech-photo { flex:0 0 auto; width:2.5rem; height:2.5rem; margin:.3rem 0; border-radius:10px; object-fit:cover; }
-        .ref-large .ref-tech { display:grid; grid-template-columns:1fr auto; row-gap:.35rem; padding:.7rem 0; }
-        .ref-large .ref-tech-photo { grid-column:1 / -1; width:100%; height:auto; max-height:24rem; margin:0; object-fit:contain; background:var(--surface); }
-        .ref-large .ref-tech-name { align-self:center; }
+        .ref-tech-row { display:flex; flex-wrap:wrap; align-items:center; gap:0 .6rem; border-bottom:1px solid var(--divider); }
+        .ref-tech-row:last-child { border-bottom:0; }
+        .ref-tech-row .ref-tech { flex:1 1 0; min-width:0; border-bottom:0; }
+        .ref-zoom { position:absolute; opacity:0; pointer-events:none; }
+        .ref-photo { flex:0 0 auto; margin:.3rem 0; cursor:zoom-in; }
+        .ref-photo img { display:block; width:2.5rem; height:2.5rem; border-radius:10px; object-fit:cover; }
+        .ref-zoom:focus-visible + .ref-photo img { outline:3px solid var(--accent); }
+        .ref-big { display:none; flex:0 0 100%; padding:.2rem 0 .7rem; cursor:zoom-out; }
+        .ref-big img { display:block; width:100%; max-height:26rem; border-radius:12px; object-fit:contain; background:var(--surface); }
+        .ref-zoom:checked ~ .ref-big { display:block; }
         .ref-tech-name { flex:1 1 auto; }
         .ref-tech-arrow { color:var(--accent); font-size:1.1rem; }
         @media (min-width:700px) {
@@ -117,7 +123,7 @@ st.markdown(
 )
 
 @lru_cache(maxsize=None)
-def photo_uri(name: str, large: bool) -> str | None:
+def photo_uri(name: str, large: bool = False) -> str | None:
     folder = PHOTOS_PATH if large else PHOTOS_PATH / "thumbs"
     path = folder / f"{name.lower()}.jpg"
     if not path.exists():
@@ -129,7 +135,6 @@ def render_category(
     category: str,
     items: list[dict[str, str]],
     is_open: bool,
-    large_photos: bool,
 ) -> str:
     links = []
     for item in items:
@@ -137,17 +142,21 @@ def render_category(
         if theme_mode != "system":
             query_params["theme"] = theme_mode
         query = escape(urlencode(query_params))
-        thumb = photo_uri(item["name"], large_photos)
-        photo = (
-            f'<img class="ref-tech-photo" src="{thumb}" alt="" loading="lazy">'
-            if thumb
-            else ""
-        )
-        links.append(
-            f'<a class="ref-tech" href="/?{query}" target="_self">'
-            f'{photo}<span class="ref-tech-name">{escape(item["name"])}</span>'
-            '<span class="ref-tech-arrow" aria-hidden="true">→</span></a>'
-        )
+        row = f'<a class="ref-tech" href="/?{query}" target="_self">'
+        row += f'<span class="ref-tech-name">{escape(item["name"])}</span>'
+        row += '<span class="ref-tech-arrow" aria-hidden="true">→</span></a>'
+        thumb = photo_uri(item["name"])
+        if thumb:
+            zoom_id = "zoom-" + "".join(c for c in item["name"].lower() if c.isalnum())
+            row = (
+                f'<input type="checkbox" class="ref-zoom" id="{zoom_id}">'
+                f'<label class="ref-photo" for="{zoom_id}" title="Agrandir la photo">'
+                f'<img src="{thumb}" alt="Agrandir la photo de {escape(item["name"])}" loading="lazy"></label>'
+                f'{row}'
+                f'<label class="ref-big" for="{zoom_id}">'
+                f'<img src="{photo_uri(item["name"], True)}" alt="Photo de {escape(item["name"])}" loading="lazy"></label>'
+            )
+        links.append(f'<div class="ref-tech-row">{row}</div>')
     open_attribute = " open" if is_open else ""
     description = escape(DESCRIPTIONS.get(category, "Techniques de judo"))
     return (
@@ -158,8 +167,7 @@ def render_category(
         f'<span class="ref-category-description">{description}</span></span>'
         f'<span class="ref-category-count">{len(items)}</span>'
         '<span class="ref-category-chevron" aria-hidden="true">⌄</span>'
-        f'</summary><div class="ref-techniques{" ref-large" if large_photos else ""}">'
-        f'{"".join(links)}</div></details>'
+        f'</summary><div class="ref-techniques">{"".join(links)}</div></details>'
     )
 
 
@@ -168,7 +176,6 @@ def render_group(
     categories: list[str],
     techniques: list[dict[str, str]],
     expand_matches: bool,
-    large_photos: bool,
 ) -> str:
     if not categories:
         return ""
@@ -184,7 +191,6 @@ def render_group(
                 category,
                 items,
                 is_open=expand_matches or not cards,
-                large_photos=large_photos,
             )
         )
     return (
@@ -242,7 +248,6 @@ search_query = st.text_input(
     placeholder="Ex. O-soto-gari",
     key="technique_search",
 )
-large_photos = st.toggle("Grandes photos", key="large_photos")
 filtered_techniques = filter_techniques(TECHNIQUES, search_query)
 has_search_query = bool(search_query.strip())
 categories = list(dict.fromkeys(item["category"] for item in filtered_techniques))
@@ -251,8 +256,8 @@ ground = [category for category in categories if category in GROUND_CATEGORIES]
 
 if filtered_techniques:
     st.markdown(
-        render_group("Debout", standing, filtered_techniques, has_search_query, large_photos)
-        + render_group("Au sol", ground, filtered_techniques, has_search_query, large_photos),
+        render_group("Debout", standing, filtered_techniques, has_search_query)
+        + render_group("Au sol", ground, filtered_techniques, has_search_query),
         unsafe_allow_html=True,
     )
 else:
