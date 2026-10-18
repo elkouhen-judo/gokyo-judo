@@ -5,7 +5,7 @@ from urllib.parse import quote
 
 import streamlit as st
 
-from judo_utils import extract_youtube_id
+from judo_utils import extract_youtube_id, get_theme_styles
 
 ASSETS_PATH = Path(__file__).with_name("assets")
 JUDO_MARK_ICON_PATH = ASSETS_PATH / "judo_mark.svg"
@@ -23,89 +23,10 @@ theme_mode = st.query_params.get("theme", "system")
 if theme_mode not in {"dark", "light"}:
     theme_mode = "system"
 
-THEME_PALETTES = {
-    "light": "--ink:#172033;--muted:#5f6b7d;--line:rgba(31,52,83,.14);--panel:rgba(255,255,255,.97);--surface:#f3f6fa;--page-top:#fbfcfe;--accent:#2864dc;--accent-soft:rgba(40,100,220,.08);--shadow-soft:0 12px 30px rgba(31,52,83,.09);--field-bg:#fff;--field-bg-end:#f9fbff;--menu-bg:#fff;--navigation-bg:rgba(255,255,251,.82);--navigation-button-bg:rgba(255,255,251,.98);--icon-bg:#e8efff;--icon-outline:#172033;--landscape-nav-bg:rgba(255,255,251,.94);--divider:#edf0f5;color-scheme:light;",
-    "dark": "--ink:#e6edf8;--muted:#a7b3c6;--line:rgba(190,208,235,.18);--panel:rgba(23,31,45,.97);--surface:#0d1421;--page-top:#111a28;--accent:#82aaff;--accent-soft:rgba(104,153,255,.17);--shadow-soft:0 12px 30px rgba(0,0,0,.28);--field-bg:#1a2433;--field-bg-end:#151e2c;--menu-bg:#172130;--navigation-bg:rgba(23,31,45,.9);--navigation-button-bg:rgba(31,42,58,.98);--icon-bg:#1a2b49;--icon-outline:#e6edf8;--landscape-nav-bg:rgba(23,31,45,.96);--divider:rgba(190,208,235,.14);color-scheme:dark;",
-}
-
+st.markdown(get_theme_styles(theme_mode), unsafe_allow_html=True)
 st.markdown(
     """
     <style>
-        :root {
-            --ink: #172033;
-            --muted: #5f6b7d;
-            --line: rgba(31, 52, 83, 0.14);
-            --panel: rgba(255, 255, 255, 0.97);
-            --surface: #f3f6fa;
-            --page-top: #fbfcfe;
-            --accent: #2864dc;
-            --accent-soft: rgba(40, 100, 220, 0.08);
-            --shadow-soft: 0 12px 30px rgba(31, 52, 83, 0.09);
-            --field-bg: #ffffff;
-            --field-bg-end: #f9fbff;
-            --menu-bg: #ffffff;
-            --navigation-bg: rgba(255, 255, 251, 0.82);
-            --navigation-button-bg: rgba(255, 255, 251, 0.98);
-            --icon-bg: #e8efff;
-            --icon-outline: #172033;
-            --landscape-nav-bg: rgba(255, 255, 251, 0.94);
-            --divider: #edf0f5;
-            color-scheme: light;
-        }
-
-        [data-theme="dark"] {
-            --ink: #e6edf8;
-            --muted: #a7b3c6;
-            --line: rgba(190, 208, 235, 0.18);
-            --panel: rgba(23, 31, 45, 0.97);
-            --surface: #0d1421;
-            --page-top: #111a28;
-            --accent: #82aaff;
-            --accent-soft: rgba(104, 153, 255, 0.17);
-            --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.28);
-            --field-bg: #1a2433;
-            --field-bg-end: #151e2c;
-            --menu-bg: #172130;
-            --navigation-bg: rgba(23, 31, 45, 0.9);
-            --navigation-button-bg: rgba(31, 42, 58, 0.98);
-            --icon-bg: #1a2b49;
-            --icon-outline: #e6edf8;
-            --landscape-nav-bg: rgba(23, 31, 45, 0.96);
-            --divider: rgba(190, 208, 235, 0.14);
-            color-scheme: dark;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root:not([data-theme="light"]) {
-                --ink: #e6edf8;
-                --muted: #a7b3c6;
-                --line: rgba(190, 208, 235, 0.18);
-                --panel: rgba(23, 31, 45, 0.97);
-                --surface: #0d1421;
-                --page-top: #111a28;
-                --accent: #82aaff;
-                --accent-soft: rgba(104, 153, 255, 0.17);
-                --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.28);
-                --field-bg: #1a2433;
-                --field-bg-end: #151e2c;
-                --menu-bg: #172130;
-                --navigation-bg: rgba(23, 31, 45, 0.9);
-                --navigation-button-bg: rgba(31, 42, 58, 0.98);
-                --icon-bg: #1a2b49;
-                --icon-outline: #e6edf8;
-                --landscape-nav-bg: rgba(23, 31, 45, 0.96);
-                --divider: rgba(190, 208, 235, 0.14);
-                color-scheme: dark;
-            }
-        }
-
-        .stApp {
-            background:
-                radial-gradient(ellipse at 90% 0%, rgba(40, 100, 220, 0.07), transparent 42%),
-                linear-gradient(180deg, var(--page-top) 0%, var(--surface) 100%);
-            color: var(--ink);
-        }
-
         .block-container {
             max-width: 820px;
             padding: 0.85rem 1rem 2.25rem;
@@ -394,7 +315,6 @@ st.markdown(
 
         .stSelectbox input {
             caret-color: transparent;
-            pointer-events: none;
         }
 
         .stSelectbox {
@@ -816,16 +736,16 @@ st.markdown(
                 font-size: 1rem;
             }
         }
+
+        @media (max-width: 360px) {
+            .app-header .app-title-text {
+                font-size: 1.15rem !important;
+            }
+        }
     </style>
     """,
     unsafe_allow_html=True,
 )
-
-if theme_mode in THEME_PALETTES:
-    st.markdown(
-        f"<style>.stApp {{{THEME_PALETTES[theme_mode]}}}</style>",
-        unsafe_allow_html=True,
-    )
 
 categories = list(dict.fromkeys(technique["category"] for technique in JUDO_TECHNIQUES))
 
@@ -948,6 +868,10 @@ def prevent_mobile_keyboard_on_selectboxes() -> None:
         """
         <script>
             function lockSelectInputs() {
+                if (!window.parent.matchMedia('(pointer: coarse)').matches) {
+                    return;
+                }
+
                 const doc = window.parent.document;
                 const inputs = doc.querySelectorAll(
                     '[data-baseweb="select"] input'
@@ -957,20 +881,7 @@ def prevent_mobile_keyboard_on_selectboxes() -> None:
                     input.setAttribute('readonly', 'readonly');
                     input.setAttribute('inputmode', 'none');
                     input.setAttribute('autocomplete', 'off');
-                    input.setAttribute('tabindex', '-1');
-                    input.style.pointerEvents = 'none';
                 });
-            }
-
-            function blurSelectInput(event) {
-                const input = event.target;
-                if (
-                    input instanceof HTMLInputElement
-                    && input.closest('[data-baseweb="select"]')
-                ) {
-                    lockSelectInputs();
-                    window.parent.requestAnimationFrame(() => input.blur());
-                }
             }
 
             lockSelectInputs();
@@ -979,11 +890,6 @@ def prevent_mobile_keyboard_on_selectboxes() -> None:
                 window.parent.document._judoSelectInputLockBound = true;
                 window.parent.setTimeout(lockSelectInputs, 250);
                 window.parent.setTimeout(lockSelectInputs, 750);
-                window.parent.document.addEventListener(
-                    'focusin',
-                    blurSelectInput,
-                    true
-                );
 
                 const observer = new MutationObserver(lockSelectInputs);
                 observer.observe(window.parent.document.body, {
@@ -1063,7 +969,7 @@ st.markdown(
         <div class="app-header-actions">
             <nav class="app-theme-toggle{theme_toggle_class}" aria-label="Thème">{theme_toggle_links}</nav>
             <a class="app-challenge-link" href="/Defi_UV2{f'?theme={theme_mode}' if theme_mode != 'system' else ''}" target="_self" aria-label="Ouvrir le Défi UV2"><span aria-hidden="true">🎲</span><span class="app-challenge-label"> Défi</span></a>
-            <a class="app-reference-link" href="/Referentiel{f'?theme={theme_mode}' if theme_mode != 'system' else ''}" target="_self"><span class="app-reference-label">Référentiel </span><span aria-hidden="true">→</span></a>
+            <a class="app-reference-link" href="/Referentiel{f'?theme={theme_mode}' if theme_mode != 'system' else ''}" target="_self" aria-label="Ouvrir le Référentiel"><span class="app-reference-label">Référentiel </span><span aria-hidden="true">→</span></a>
         </div>
     </header>
     """,

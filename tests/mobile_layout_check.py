@@ -132,9 +132,9 @@ def assert_mobile_layout() -> None:
                     )
                     assert_card_corner_navigation(page)
                     assert select_input_state["inputMode"] == "none"
-                    assert select_input_state["pointerEvents"] == "none"
+                    assert select_input_state["pointerEvents"] != "none"
                     assert select_input_state["readOnly"] is True
-                    assert select_input_state["tabIndex"] == -1
+                    assert select_input_state["tabIndex"] >= 0
                     expect(next_button).to_be_hidden()
                     expect(previous_button).to_be_hidden()
                     expect(page.locator(".landscape-nav-toggle")).to_be_hidden()
@@ -187,6 +187,31 @@ def assert_mobile_layout() -> None:
             ).get_attribute("src")
             assert desktop_before_src != desktop_after_src
             desktop_page.close()
+
+            compact_page = browser.new_page(
+                viewport={"width": 320, "height": 700},
+                is_mobile=True,
+                has_touch=True,
+            )
+            compact_page.goto(APP_URL, wait_until="domcontentloaded", timeout=15_000)
+            compact_page.wait_for_timeout(1_000)
+            expect(
+                compact_page.get_by_role("link", name="Ouvrir le Référentiel")
+            ).to_be_visible()
+            assert compact_page.evaluate(
+                "document.querySelector('.app-header-actions').getBoundingClientRect().right"
+                " <= window.innerWidth"
+            )
+
+            compact_page.get_by_role("link", name="Ouvrir le Défi UV2").click()
+            compact_page.wait_for_timeout(1_000)
+            expect(
+                compact_page.get_by_role("link", name="Retour à la révision")
+            ).to_be_visible()
+            expect(
+                compact_page.get_by_role("link", name="Ouvrir le Référentiel")
+            ).to_be_visible()
+            compact_page.close()
         finally:
             browser.close()
 

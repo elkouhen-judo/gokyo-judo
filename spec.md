@@ -32,6 +32,8 @@ Les propriétés supplémentaires sont tolérées. L’interface actuelle ne les
 - Les familles précèdent les informations pédagogiques détaillées sur l’UV2.
 - La page « Défi UV2 » tire 6 techniques debout et 4 au sol, sans doublon, avec au moins une technique de chaque famille du domaine.
 - Le tirage est conservé jusqu’à la demande d’un nouveau ; aucun chrono ni score n’est affiché.
+- Tous les liens de navigation gardent un nom accessible, même lorsque leur texte visible est masqué sur mobile.
+- La prévention du clavier virtuel tactile conserve la tabulation et le focus clavier des sélecteurs.
 - Les liens du référentiel ouvrent la page de révision avec les paramètres `category` et `technique` dans l’URL.
 - La fiche affiche le rang de la technique dans sa catégorie.
 - Le lecteur accepte les formats YouTube `watch`, `youtu.be` et `shorts`.

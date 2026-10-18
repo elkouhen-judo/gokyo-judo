@@ -4,7 +4,7 @@ from pathlib import Path
 
 import streamlit as st
 
-from judo_utils import draw_techniques_by_category
+from judo_utils import draw_techniques_by_category, get_theme_styles
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -28,32 +28,10 @@ theme_mode = st.query_params.get("theme", "system")
 if theme_mode not in {"dark", "light"}:
     theme_mode = "system"
 
-LIGHT_PALETTE = (
-    "--ink:#172033;--muted:#5f6b7d;--line:rgba(31,52,83,.14);"
-    "--panel:rgba(255,255,255,.97);--surface:#f3f6fa;--page-top:#fbfcfe;"
-    "--accent:#2864dc;--accent-soft:rgba(40,100,220,.08);"
-    "--shadow-soft:0 12px 30px rgba(31,52,83,.09);"
-)
-DARK_PALETTE = (
-    "--ink:#e6edf8;--muted:#a7b3c6;--line:rgba(190,208,235,.18);"
-    "--panel:rgba(23,31,45,.97);--surface:#0d1421;--page-top:#111a28;"
-    "--accent:#82aaff;--accent-soft:rgba(104,153,255,.17);"
-    "--shadow-soft:0 12px 30px rgba(0,0,0,.28);"
-)
-
+st.markdown(get_theme_styles(theme_mode), unsafe_allow_html=True)
 st.markdown(
     f"""
     <style>
-        :root {{ {LIGHT_PALETTE} color-scheme:light; }}
-        [data-theme="dark"] {{ {DARK_PALETTE} color-scheme:dark; }}
-        @media (prefers-color-scheme:dark) {{
-            :root:not([data-theme="light"]) {{ {DARK_PALETTE} color-scheme:dark; }}
-        }}
-        .stApp {{
-            color:var(--ink);
-            background:radial-gradient(ellipse at 90% 0%,rgba(40,100,220,.07),transparent 42%),
-                linear-gradient(180deg,var(--page-top) 0%,var(--surface) 100%);
-        }}
         [data-testid="stHeader"], [data-testid="stToolbar"],
         [data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"] {{
             display:none !important;
@@ -100,6 +78,13 @@ st.markdown(
             font-size:.88rem; line-height:1.5;
         }}
         .draw-instructions strong {{ color:var(--ink); }}
+        .challenge-link-primary {{
+            border-color:var(--accent); background:var(--accent); color:#fff!important;
+        }}
+        .challenge-link-primary:hover,
+        .challenge-link-primary:focus-visible {{
+            background:#1d4fb2;
+        }}
         [data-testid="stButton"] button {{
             min-height:3rem; border-radius:999px; font-weight:850;
         }}
@@ -145,18 +130,6 @@ st.markdown(
 )
 
 if theme_mode == "dark":
-    palette = DARK_PALETTE + "color-scheme:dark;"
-elif theme_mode == "light":
-    palette = LIGHT_PALETTE + "color-scheme:light;"
-else:
-    palette = ""
-if palette:
-    st.markdown(
-        f"<style>.stApp {{{palette}}}</style>",
-        unsafe_allow_html=True,
-    )
-
-if theme_mode == "dark":
     theme_toggle_links = (
         '<a class="challenge-link" href="?theme=light" '
         'aria-label="Activer le thème clair">☀</a>'
@@ -185,10 +158,10 @@ st.markdown(
         <span class="challenge-brand">Gokyo</span>
         <div class="challenge-actions">
             <nav class="challenge-theme-toggle{theme_toggle_class}" aria-label="Thème">{theme_toggle_links}</nav>
-            <a class="challenge-link" href="/{theme_query}" target="_self">
+            <a class="challenge-link challenge-link-primary" href="/{theme_query}" target="_self" aria-label="Retour à la révision">
                 <span aria-hidden="true">←</span><span class="challenge-link-label"> Réviser</span>
             </a>
-            <a class="challenge-link" href="/Referentiel{theme_query}" target="_self">
+            <a class="challenge-link" href="/Referentiel{theme_query}" target="_self" aria-label="Ouvrir le Référentiel">
                 <span aria-hidden="true">☷</span><span class="challenge-link-label"> Référentiel</span>
             </a>
         </div>

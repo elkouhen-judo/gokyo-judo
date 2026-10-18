@@ -5,7 +5,7 @@ from urllib.parse import urlencode
 
 import streamlit as st
 
-from judo_utils import filter_techniques
+from judo_utils import filter_techniques, get_theme_styles
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -40,20 +40,10 @@ theme_mode = st.query_params.get("theme", "system")
 if theme_mode not in {"dark", "light"}:
     theme_mode = "system"
 
-THEME_PALETTES = {
-    "light": "--ink:#172033;--muted:#5f6b7d;--line:rgba(31,52,83,.14);--panel:rgba(255,255,255,.97);--surface:#f3f6fa;--page-top:#fbfcfe;--accent:#2864dc;--accent-soft:rgba(40,100,220,.08);--shadow-soft:0 12px 30px rgba(31,52,83,.09);--icon-bg:#fff;--exam-bg:rgba(255,255,255,.97);--quote-bg:rgba(255,255,255,.75);--divider:#edf0f5;color-scheme:light;",
-    "dark": "--ink:#e6edf8;--muted:#a7b3c6;--line:rgba(190,208,235,.18);--panel:rgba(23,31,45,.97);--surface:#0d1421;--page-top:#111a28;--accent:#82aaff;--accent-soft:rgba(104,153,255,.17);--shadow-soft:0 12px 30px rgba(0,0,0,.28);--icon-bg:#1a2433;--exam-bg:rgba(23,31,45,.97);--quote-bg:rgba(31,42,58,.82);--divider:rgba(190,208,235,.14);color-scheme:dark;",
-}
-
+st.markdown(get_theme_styles(theme_mode), unsafe_allow_html=True)
 st.markdown(
     """
     <style>
-        :root { --ink:#172033; --muted:#5f6b7d; --line:rgba(31,52,83,.14); --panel:rgba(255,255,255,.97); --surface:#f3f6fa; --page-top:#fbfcfe; --accent:#2864dc; --accent-soft:rgba(40,100,220,.08); --shadow-soft:0 12px 30px rgba(31,52,83,.09); --icon-bg:#fff; --exam-bg:rgba(255,255,255,.97); --quote-bg:rgba(255,255,255,.75); --divider:#edf0f5; color-scheme:light; }
-        [data-theme="dark"] { --ink:#e6edf8; --muted:#a7b3c6; --line:rgba(190,208,235,.18); --panel:rgba(23,31,45,.97); --surface:#0d1421; --page-top:#111a28; --accent:#82aaff; --accent-soft:rgba(104,153,255,.17); --shadow-soft:0 12px 30px rgba(0,0,0,.28); --icon-bg:#1a2433; --exam-bg:rgba(23,31,45,.97); --quote-bg:rgba(31,42,58,.82); --divider:rgba(190,208,235,.14); color-scheme:dark; }
-        @media (prefers-color-scheme:dark) {
-            :root:not([data-theme="light"]) { --ink:#e6edf8; --muted:#a7b3c6; --line:rgba(190,208,235,.18); --panel:rgba(23,31,45,.97); --surface:#0d1421; --page-top:#111a28; --accent:#82aaff; --accent-soft:rgba(104,153,255,.17); --shadow-soft:0 12px 30px rgba(0,0,0,.28); --icon-bg:#1a2433; --exam-bg:rgba(23,31,45,.97); --quote-bg:rgba(31,42,58,.82); --divider:rgba(190,208,235,.14); color-scheme:dark; }
-        }
-        .stApp { background:radial-gradient(ellipse at 90% 0%,rgba(40,100,220,.07),transparent 42%),linear-gradient(180deg,var(--page-top) 0%,var(--surface) 100%); color:var(--ink); }
         [data-testid="stHeader"], [data-testid="stToolbar"],
         [data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"] { display:none !important; }
         .block-container { max-width:760px; padding:1.1rem 1rem 4rem; }
@@ -120,13 +110,6 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-
-if theme_mode in THEME_PALETTES:
-    st.markdown(
-        f"<style>.stApp {{{THEME_PALETTES[theme_mode]}}}</style>",
-        unsafe_allow_html=True,
-    )
-
 
 def render_category(
     category: str,
@@ -215,7 +198,7 @@ st.markdown(
         <div class="ref-topbar-actions">
             <nav class="ref-theme-toggle{theme_toggle_class}" aria-label="Thème">{theme_toggle_links}</nav>
             <a class="ref-challenge" href="/Defi_UV2{f'?theme={theme_mode}' if theme_mode != 'system' else ''}" target="_self" aria-label="Ouvrir le Défi UV2"><span aria-hidden="true">🎲</span><span class="ref-challenge-label"> Défi</span></a>
-            <a class="ref-back" href="{f'/?theme={theme_mode}' if theme_mode != 'system' else '/'}" target="_self"><span aria-hidden="true">←</span><span class="ref-back-label"> Réviser</span></a>
+            <a class="ref-back" href="{f'/?theme={theme_mode}' if theme_mode != 'system' else '/'}" target="_self" aria-label="Retour à la révision"><span aria-hidden="true">←</span><span class="ref-back-label"> Réviser</span></a>
         </div>
     </div>
     <section class="ref-hero">

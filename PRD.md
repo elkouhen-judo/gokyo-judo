@@ -67,6 +67,7 @@ La sélection de catégorie et de technique figure dans les paramètres `categor
 - La fiche affiche le nom, une courte description et une vidéo YouTube intégrée.
 - Le nom de la technique affiche sa position dans la catégorie, par exemple « 2/6 ».
 - Les sélecteurs de catégorie et de technique conservent leurs libellés visibles.
+- Les sélecteurs restent utilisables au clavier ; la suppression du clavier tactile ne retire pas leur focus ni leur ordre de tabulation.
 - Les commandes précédente et suivante permettent de naviguer dans les techniques.
 - La page Référentiel regroupe dynamiquement les techniques selon les catégories des données.
 - Le Référentiel propose une recherche instantanée par nom de technique ou famille, sans distinction de casse, d’accent ou de tiret.
@@ -101,6 +102,7 @@ La sélection de catégorie et de technique figure dans les paramètres `categor
 - Le lien du document fédéral ouvre le PDF officiel.
 - Les deux pages sont utilisables sur mobile en portrait et en paysage, sans barre latérale et sans défilement horizontal de la page.
 - Les textes et commandes restent lisibles avec la palette vive retenue.
+- Les liens de navigation conservent un nom accessible lorsque leur libellé visible est compacté sur mobile.
 
 ## 10. Décision de direction visuelle
 
