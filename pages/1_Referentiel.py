@@ -1,4 +1,6 @@
 import json
+import base64
+from functools import lru_cache
 from html import escape
 from pathlib import Path
 from urllib.parse import urlencode
@@ -11,6 +13,7 @@ from judo_utils import filter_techniques, get_theme_styles, nav_links_html
 ROOT = Path(__file__).resolve().parent.parent
 TECHNIQUES = json.loads((ROOT / "techniques.json").read_text(encoding="utf-8"))
 JUDO_MARK_SVG = (ROOT / "assets/judo_mark.svg").read_text(encoding="utf-8")
+THUMBS_PATH = ROOT / "assets" / "techniques" / "thumbs"
 OFFICIAL_PDF_URL = (
     "https://www.ffjudo.com/resource-file/document/"
     "1789035361_068de2d2976847c37f5a.pdf"
@@ -92,10 +95,12 @@ st.markdown(
         .ref-category-count { margin-left:auto; color:var(--muted); font-size:.8rem; font-weight:750; }
         .ref-category-chevron { color:var(--muted); font-size:1.15rem; transition:transform .15s ease; }
         .ref-category[open] .ref-category-chevron { transform:rotate(180deg); }
-        .ref-techniques { border-top:1px solid var(--line); padding:0 .9rem .2rem 3.95rem; }
+        .ref-techniques { border-top:1px solid var(--line); padding:0 .9rem .2rem .9rem; }
         .ref-tech { display:flex; align-items:center; justify-content:space-between; gap:.5rem; min-height:2.9rem; border-bottom:1px solid var(--divider); color:var(--ink)!important; font-size:.88rem; font-weight:650; text-decoration:none!important; }
         .ref-tech:last-child { border-bottom:0; }
         .ref-tech:hover { color:var(--accent)!important; }
+        .ref-tech-photo { flex:0 0 auto; width:2.5rem; height:2.5rem; margin:.3rem 0; border-radius:10px; object-fit:cover; }
+        .ref-tech-name { flex:1 1 auto; }
         .ref-tech-arrow { color:var(--accent); font-size:1.1rem; }
         @media (min-width:700px) {
             .block-container { padding-top:2.5rem; }
@@ -108,6 +113,14 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+@lru_cache(maxsize=None)
+def thumbnail_uri(name: str) -> str | None:
+    path = THUMBS_PATH / f"{name.lower()}.jpg"
+    if not path.exists():
+        return None
+    return "data:image/jpeg;base64," + base64.b64encode(path.read_bytes()).decode()
+
+
 def render_category(
     category: str,
     items: list[dict[str, str]],
@@ -119,9 +132,15 @@ def render_category(
         if theme_mode != "system":
             query_params["theme"] = theme_mode
         query = escape(urlencode(query_params))
+        thumb = thumbnail_uri(item["name"])
+        photo = (
+            f'<img class="ref-tech-photo" src="{thumb}" alt="" loading="lazy">'
+            if thumb
+            else ""
+        )
         links.append(
             f'<a class="ref-tech" href="/?{query}" target="_self">'
-            f'<span>{escape(item["name"])}</span>'
+            f'{photo}<span class="ref-tech-name">{escape(item["name"])}</span>'
             '<span class="ref-tech-arrow" aria-hidden="true">→</span></a>'
         )
     open_attribute = " open" if is_open else ""
