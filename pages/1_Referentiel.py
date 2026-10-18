@@ -13,7 +13,7 @@ from judo_utils import filter_techniques, get_theme_styles, nav_links_html
 ROOT = Path(__file__).resolve().parent.parent
 TECHNIQUES = json.loads((ROOT / "techniques.json").read_text(encoding="utf-8"))
 JUDO_MARK_SVG = (ROOT / "assets/judo_mark.svg").read_text(encoding="utf-8")
-THUMBS_PATH = ROOT / "assets" / "techniques" / "thumbs"
+PHOTOS_PATH = ROOT / "assets" / "techniques"
 OFFICIAL_PDF_URL = (
     "https://www.ffjudo.com/resource-file/document/"
     "1789035361_068de2d2976847c37f5a.pdf"
@@ -100,6 +100,9 @@ st.markdown(
         .ref-tech:last-child { border-bottom:0; }
         .ref-tech:hover { color:var(--accent)!important; }
         .ref-tech-photo { flex:0 0 auto; width:2.5rem; height:2.5rem; margin:.3rem 0; border-radius:10px; object-fit:cover; }
+        .ref-large .ref-tech { display:grid; grid-template-columns:1fr auto; row-gap:.35rem; padding:.7rem 0; }
+        .ref-large .ref-tech-photo { grid-column:1 / -1; width:100%; height:auto; max-height:24rem; margin:0; object-fit:contain; background:var(--surface); }
+        .ref-large .ref-tech-name { align-self:center; }
         .ref-tech-name { flex:1 1 auto; }
         .ref-tech-arrow { color:var(--accent); font-size:1.1rem; }
         @media (min-width:700px) {
@@ -114,8 +117,9 @@ st.markdown(
 )
 
 @lru_cache(maxsize=None)
-def thumbnail_uri(name: str) -> str | None:
-    path = THUMBS_PATH / f"{name.lower()}.jpg"
+def photo_uri(name: str, large: bool) -> str | None:
+    folder = PHOTOS_PATH if large else PHOTOS_PATH / "thumbs"
+    path = folder / f"{name.lower()}.jpg"
     if not path.exists():
         return None
     return "data:image/jpeg;base64," + base64.b64encode(path.read_bytes()).decode()
@@ -125,6 +129,7 @@ def render_category(
     category: str,
     items: list[dict[str, str]],
     is_open: bool,
+    large_photos: bool,
 ) -> str:
     links = []
     for item in items:
@@ -132,7 +137,7 @@ def render_category(
         if theme_mode != "system":
             query_params["theme"] = theme_mode
         query = escape(urlencode(query_params))
-        thumb = thumbnail_uri(item["name"])
+        thumb = photo_uri(item["name"], large_photos)
         photo = (
             f'<img class="ref-tech-photo" src="{thumb}" alt="" loading="lazy">'
             if thumb
@@ -153,7 +158,8 @@ def render_category(
         f'<span class="ref-category-description">{description}</span></span>'
         f'<span class="ref-category-count">{len(items)}</span>'
         '<span class="ref-category-chevron" aria-hidden="true">⌄</span>'
-        f'</summary><div class="ref-techniques">{"".join(links)}</div></details>'
+        f'</summary><div class="ref-techniques{" ref-large" if large_photos else ""}">'
+        f'{"".join(links)}</div></details>'
     )
 
 
@@ -162,6 +168,7 @@ def render_group(
     categories: list[str],
     techniques: list[dict[str, str]],
     expand_matches: bool,
+    large_photos: bool,
 ) -> str:
     if not categories:
         return ""
@@ -177,6 +184,7 @@ def render_group(
                 category,
                 items,
                 is_open=expand_matches or not cards,
+                large_photos=large_photos,
             )
         )
     return (
@@ -234,6 +242,7 @@ search_query = st.text_input(
     placeholder="Ex. O-soto-gari",
     key="technique_search",
 )
+large_photos = st.toggle("Grandes photos", key="large_photos")
 filtered_techniques = filter_techniques(TECHNIQUES, search_query)
 has_search_query = bool(search_query.strip())
 categories = list(dict.fromkeys(item["category"] for item in filtered_techniques))
@@ -242,8 +251,8 @@ ground = [category for category in categories if category in GROUND_CATEGORIES]
 
 if filtered_techniques:
     st.markdown(
-        render_group("Debout", standing, filtered_techniques, has_search_query)
-        + render_group("Au sol", ground, filtered_techniques, has_search_query),
+        render_group("Debout", standing, filtered_techniques, has_search_query, large_photos)
+        + render_group("Au sol", ground, filtered_techniques, has_search_query, large_photos),
         unsafe_allow_html=True,
     )
 else:
