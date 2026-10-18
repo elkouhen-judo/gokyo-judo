@@ -5,7 +5,7 @@ from urllib.parse import urlencode
 
 import streamlit as st
 
-from judo_utils import filter_techniques, get_theme_styles, render_nav
+from judo_utils import filter_techniques, get_theme_styles, nav_links_html
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -58,9 +58,6 @@ st.markdown(
         .ref-theme-light, .ref-theme-dark { display:none; }
         .ref-theme-toggle.is-system .ref-theme-dark { display:inline-flex; }
         @media (prefers-color-scheme:dark) { .ref-theme-toggle.is-system .ref-theme-light { display:inline-flex; } .ref-theme-toggle.is-system .ref-theme-dark { display:none; } }
-        .ref-back { display:inline-flex; flex:0 0 auto; align-items:center; justify-content:center; gap:.4rem; min-height:2.75rem; padding:.3rem .9rem; border:1px solid var(--accent); border-radius:999px; background:var(--accent); color:#fff!important; font-size:.84rem; font-weight:800; text-decoration:none!important; white-space:nowrap; }
-        .ref-back:hover, .ref-back:focus-visible { border-color:#1d4fb2; background:#1d4fb2; }
-        .ref-challenge { display:inline-flex; align-items:center; justify-content:center; gap:.35rem; min-height:2.75rem; padding:.2rem .75rem; border:1px solid var(--line); border-radius:999px; background:var(--panel); color:var(--ink)!important; font-size:.82rem; font-weight:800; text-decoration:none!important; white-space:nowrap; }
         .ref-hero { margin-bottom:1.1rem; }
         .ref-eyebrow { display:inline-block; margin:0 0 .45rem; padding:.25rem .5rem; border-radius:999px; background:var(--accent-soft); color:var(--accent); font-size:.72rem; font-weight:900; letter-spacing:.1em; text-transform:uppercase; }
         .ref-title { margin:0; color:var(--ink); font-size:clamp(1.8rem,7vw,2.6rem); font-weight:900; letter-spacing:-.045em; line-height:1.08; }
@@ -105,13 +102,11 @@ st.markdown(
             .ref-grid { grid-template-columns:repeat(2,minmax(0,1fr)); align-items:start; }
         }
         @media (max-width:360px) { .ref-category-description { display:none; } }
-        @media (max-width:480px) { .ref-topbar-actions { gap:.3rem; } .ref-theme-link, .ref-challenge { width:2.75rem; padding:.2rem; font-size:1rem; } .ref-theme-label, .ref-back-label, .ref-challenge-label { display:none; } }
+        @media (max-width:480px) { .ref-topbar-actions { gap:.3rem; } .ref-theme-link { width:2.75rem; padding:.2rem; font-size:1rem; } .ref-theme-label { display:none; } }
     </style>
     """,
     unsafe_allow_html=True,
 )
-
-render_nav("ref")
 
 def render_category(
     category: str,
@@ -199,8 +194,7 @@ st.markdown(
         <span class="ref-brand"><span class="ref-brand-icon" aria-hidden="true">{JUDO_MARK_SVG}</span>Gokyo</span>
         <div class="ref-topbar-actions">
             <nav class="ref-theme-toggle{theme_toggle_class}" aria-label="Thème">{theme_toggle_links}</nav>
-            <a class="ref-challenge" href="/Defi_UV2{f'?theme={theme_mode}' if theme_mode != 'system' else ''}" target="_self" aria-label="Ouvrir le Défi UV2"><span aria-hidden="true">🎲</span><span class="ref-challenge-label"> Défi</span></a>
-            <a class="ref-back" href="{f'/?theme={theme_mode}' if theme_mode != 'system' else '/'}" target="_self" aria-label="Retour à la révision"><span aria-hidden="true">←</span><span class="ref-back-label"> Réviser</span></a>
+            {nav_links_html("ref", theme_mode)}
         </div>
     </div>
     <section class="ref-hero">

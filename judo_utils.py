@@ -40,6 +40,7 @@ def get_theme_styles(theme_mode: str) -> str:
 
     return f"""
         <style>
+            {NAV_CSS}
             :root {{{LIGHT_THEME}color-scheme:light;}}
             [data-theme="dark"] {{{DARK_THEME}color-scheme:dark;}}
             @media (prefers-color-scheme:dark) {{
@@ -136,35 +137,33 @@ def extract_youtube_id(url: str) -> str:
 
 
 NAV_PAGES = (
-    ("home", "prises_judo.py", "Techniques", "🥋"),
-    ("ref", "pages/1_Referentiel.py", "Référentiel", "📖"),
-    ("uv2", "pages/2_Defi_UV2.py", "Défi UV2", "🎯"),
+    ("home", "/", "Techniques", "🥋", "Ouvrir les techniques"),
+    ("ref", "/Referentiel", "Référentiel", "📖", "Ouvrir le Référentiel"),
+    ("uv2", "/Defi_UV2", "Défi UV2", "🎯", "Ouvrir le Défi UV2"),
 )
 
 
-def render_nav(current: str) -> None:
-    import streamlit as st
-
-    st.markdown(
-        """
-        <style>
-            [data-testid="stPageLink"] a {
-                justify-content:center; border:1px solid var(--line, rgba(128,128,128,.35));
-                border-radius:12px; min-height:2.9rem; padding:.35rem .5rem;
-                background:var(--surface, transparent); text-decoration:none;
-            }
-            [data-testid="stPageLink"] a p { font-weight:700; font-size:.95rem; }
-            [data-testid="stHorizontalBlock"]:has([data-testid="stPageLink"]) {
-                flex-wrap:nowrap !important; gap:.5rem; margin-bottom:.75rem;
-            }
-            [data-testid="stHorizontalBlock"]:has([data-testid="stPageLink"]) > div {
-                min-width:0 !important;
-            }
-        </style>
-        """,
-        unsafe_allow_html=True,
+def nav_links_html(current: str, theme_mode: str) -> str:
+    query = f"?theme={theme_mode}" if theme_mode != "system" else ""
+    return "".join(
+        f'<a class="nav-link" href="{path}{query}" target="_self" aria-label="{aria}">'
+        f'<span aria-hidden="true">{icon}</span><span class="nav-link-label">{label}</span></a>'
+        for key, path, label, icon, aria in NAV_PAGES
+        if key != current
     )
-    targets = [page for page in NAV_PAGES if page[0] != current]
-    for column, (_, path, label, icon) in zip(st.columns(len(targets)), targets):
-        with column:
-            st.page_link(path, label=label, icon=icon, use_container_width=True)
+
+
+NAV_CSS = """
+        .nav-link {
+            display:inline-flex; align-items:center; justify-content:center; gap:.35rem;
+            min-height:2.75rem; min-width:2.75rem; padding:.2rem .75rem; flex:0 0 auto;
+            border:1px solid var(--line); border-radius:999px;
+            background:var(--panel); color:var(--ink) !important;
+            font-size:.82rem; font-weight:800; text-decoration:none !important; white-space:nowrap;
+        }
+        .nav-link:hover, .nav-link:focus-visible { border-color:var(--accent); background:var(--accent-soft); }
+        @media (max-width:480px) {
+            .nav-link { width:2.75rem; padding:.2rem; font-size:1rem; }
+            .nav-link-label { display:none; }
+        }
+"""

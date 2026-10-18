@@ -4,7 +4,7 @@ from pathlib import Path
 
 import streamlit as st
 
-from judo_utils import draw_techniques_by_category, get_theme_styles, render_nav
+from judo_utils import draw_techniques_by_category, get_theme_styles, nav_links_html
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -78,13 +78,6 @@ st.markdown(
             font-size:.88rem; line-height:1.5;
         }}
         .draw-instructions strong {{ color:var(--ink); }}
-        .challenge-link-primary {{
-            border-color:var(--accent); background:var(--accent); color:#fff!important;
-        }}
-        .challenge-link-primary:hover,
-        .challenge-link-primary:focus-visible {{
-            background:#1d4fb2;
-        }}
         [data-testid="stButton"] button {{
             min-height:3rem; border-radius:999px; font-weight:850;
         }}
@@ -129,8 +122,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-render_nav("uv2")
-
 if theme_mode == "dark":
     theme_toggle_links = (
         '<a class="challenge-link" href="?theme=light" '
@@ -152,20 +143,13 @@ else:
     )
     theme_toggle_class = " is-system"
 
-theme_query = f"?theme={theme_mode}" if theme_mode != "system" else ""
-
 st.markdown(
     f"""
     <header class="challenge-header">
         <span class="challenge-brand">Gokyo</span>
         <div class="challenge-actions">
             <nav class="challenge-theme-toggle{theme_toggle_class}" aria-label="Thème">{theme_toggle_links}</nav>
-            <a class="challenge-link challenge-link-primary" href="/{theme_query}" target="_self" aria-label="Retour à la révision">
-                <span aria-hidden="true">←</span><span class="challenge-link-label"> Réviser</span>
-            </a>
-            <a class="challenge-link" href="/Referentiel{theme_query}" target="_self" aria-label="Ouvrir le Référentiel">
-                <span aria-hidden="true">☷</span><span class="challenge-link-label"> Référentiel</span>
-            </a>
+            {nav_links_html("uv2", theme_mode)}
         </div>
     </header>
     <section class="challenge-hero">

@@ -5,7 +5,7 @@ from urllib.parse import quote
 
 import streamlit as st
 
-from judo_utils import extract_youtube_id, get_theme_styles, render_nav
+from judo_utils import extract_youtube_id, get_theme_styles, nav_links_html
 
 ASSETS_PATH = Path(__file__).with_name("assets")
 JUDO_MARK_ICON_PATH = ASSETS_PATH / "judo_mark.svg"
@@ -68,45 +68,6 @@ st.markdown(
             align-items: center;
             gap: 0.45rem;
             flex: 0 0 auto;
-        }
-
-        .app-reference-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 2.75rem;
-            flex: 0 0 auto;
-            padding: 0.2rem 0.85rem;
-            border: 1px solid rgba(40, 100, 220, 0.28);
-            border-radius: 999px;
-            background: var(--accent);
-            color: #fff !important;
-            font-size: 0.82rem;
-            font-weight: 800;
-            text-decoration: none !important;
-            white-space: nowrap;
-        }
-
-        .app-reference-link:hover,
-        .app-reference-link:focus-visible {
-            background: #1d4fb2;
-        }
-
-        .app-challenge-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 2.75rem;
-            flex: 0 0 auto;
-            padding: 0.2rem 0.75rem;
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            background: var(--panel);
-            color: var(--ink) !important;
-            font-size: 0.82rem;
-            font-weight: 800;
-            text-decoration: none !important;
-            white-space: nowrap;
         }
 
         .app-theme-toggle {
@@ -724,16 +685,8 @@ st.markdown(
                 font-size: 1rem;
             }
 
-            .app-theme-link .theme-label,
-            .app-reference-label,
-            .app-challenge-label {
+            .app-theme-link .theme-label {
                 display: none;
-            }
-
-            .app-challenge-link {
-                width: 2.75rem;
-                padding: 0.2rem;
-                font-size: 1rem;
             }
         }
 
@@ -746,8 +699,6 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-
-render_nav("home")
 
 categories = list(dict.fromkeys(technique["category"] for technique in JUDO_TECHNIQUES))
 
@@ -970,8 +921,7 @@ st.markdown(
         </h1>
         <div class="app-header-actions">
             <nav class="app-theme-toggle{theme_toggle_class}" aria-label="Thème">{theme_toggle_links}</nav>
-            <a class="app-challenge-link" href="/Defi_UV2{f'?theme={theme_mode}' if theme_mode != 'system' else ''}" target="_self" aria-label="Ouvrir le Défi UV2"><span aria-hidden="true">🎲</span><span class="app-challenge-label"> Défi</span></a>
-            <a class="app-reference-link" href="/Referentiel{f'?theme={theme_mode}' if theme_mode != 'system' else ''}" target="_self" aria-label="Ouvrir le Référentiel"><span class="app-reference-label">Référentiel </span><span aria-hidden="true">→</span></a>
+            {nav_links_html("home", theme_mode)}
         </div>
     </header>
     """,
