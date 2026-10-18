@@ -5,7 +5,7 @@ from urllib.parse import quote
 
 import streamlit as st
 
-from judo_utils import extract_youtube_id, get_theme_styles
+from judo_utils import extract_youtube_id, get_theme_styles, render_nav
 
 ASSETS_PATH = Path(__file__).with_name("assets")
 JUDO_MARK_ICON_PATH = ASSETS_PATH / "judo_mark.svg"
@@ -747,6 +747,8 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+render_nav("home")
+
 categories = list(dict.fromkeys(technique["category"] for technique in JUDO_TECHNIQUES))
 
 
@@ -1003,7 +1005,7 @@ escaped_video_id = escape(video_id)
 st.markdown(
     f"""
     <div class="tech-panel">
-        <h2 class="technique-name" aria-label="{escape(format_technique_name(selected_technique["name"]))}, prise {current_index + 1} sur {len(technique_names)} dans {escape(selected_category)}">
+        <h2 class="technique-name" aria-label="{escape(format_technique_name(selected_technique["name"]))}, technique {current_index + 1} sur {len(technique_names)} dans {escape(selected_category)}">
             {escape(format_technique_name(selected_technique["name"]))}
             <span class="technique-position" aria-hidden="true">· {current_index + 1}/{len(technique_names)}</span>
         </h2>

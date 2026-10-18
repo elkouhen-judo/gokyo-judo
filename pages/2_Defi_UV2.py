@@ -4,7 +4,7 @@ from pathlib import Path
 
 import streamlit as st
 
-from judo_utils import draw_techniques_by_category, get_theme_styles
+from judo_utils import draw_techniques_by_category, get_theme_styles, render_nav
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -128,6 +128,8 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
+render_nav("uv2")
 
 if theme_mode == "dark":
     theme_toggle_links = (

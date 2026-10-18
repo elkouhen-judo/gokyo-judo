@@ -5,7 +5,7 @@ from urllib.parse import urlencode
 
 import streamlit as st
 
-from judo_utils import filter_techniques, get_theme_styles
+from judo_utils import filter_techniques, get_theme_styles, render_nav
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -110,6 +110,8 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
+render_nav("ref")
 
 def render_category(
     category: str,
